@@ -17,41 +17,32 @@ function App() {
   const [intentos, setIntentos] = useState(0);
   const [hasWon, setHasWon] = useState(false);
   const [showModal, setShowModal] = useState(true);
-  const [personajesFiltrados, setPersonajesFiltrados] = useState([]);
-
-
+  const [personajesCoincidentes, setPersonajesCoincidentes] = useState([]);
   useEffect(() => {
     setPersonajeLista(data.personajes);
 
-    if (!inputValue) {
-      setPersonajesFiltrados([]); // Limpia la lista de personajes filtrados
-      return;
-    }
-
-    // Calcula el rango de IDs disponibles
-    const idRange = data.personajes.map((personajes) => personajes.idPersonajes);
-    
-    // Genera un número aleatorio dentro del rango de IDs
-    const randomIndex = Math.floor(Math.random() * idRange.length);
-    const randomId = idRange[randomIndex];
-    
-    // Encuentra el personaje con el ID aleatorio
-    const personajeCargado = data.personajes.find((personajes) => personajes.idPersonajes === randomId);
-    setPersonajePorId(personajeCargado);
-
-    const personajesFiltrados = personajeLista.filter(personaje =>
-      personaje.Nombre.toLowerCase().includes(inputValue.toLowerCase())
-    );
-    setPersonajesFiltrados(personajesFiltrados);
-  }, [inputValue, personajeLista]);
+      // Calcula el rango de IDs disponibles
+      const idRange = data.personajes.map((personajes) => personajes.idPersonajes);
+      
+      // Genera un número aleatorio dentro del rango de IDs
+      const randomIndex = Math.floor(Math.random() * idRange.length);
+      const randomId = idRange[randomIndex];
+      
+      // Encuentra el personaje con el ID aleatorio
+      const personajeCargado = data.personajes.find((personajes) => personajes.idPersonajes === randomId);
+      setPersonajePorId(personajeCargado);
+  }, []);
 
   const handleInputChange = (event) => {
-    setInputValue(event.target.value);
+    const inputValue = event.target.value;
+    setInputValue(inputValue);
+    
+    const personajesCoincidentes = personajeLista.filter(personaje =>
+      personaje.Nombre.toLowerCase().includes(inputValue.toLowerCase())
+    );
+    
+    setPersonajesCoincidentes(personajesCoincidentes);
     setShowError(false);
-  };
-
-  const handleListItemClick = (nombre) => {
-    setInputValue(nombre);
   };
 
   const verificarNombre = () => {
@@ -102,8 +93,7 @@ function App() {
 
       setTablasFiltradas([...tablasFiltradas, nuevaTablaFiltrada]);
       setPersonajesComparados(new Set(personajesComparados).add(personajeEncontrado.idPersonajes));
-
-      setInputValue('');
+      
     } else{
       setShowError(true);
     }
@@ -158,28 +148,28 @@ function App() {
       )}
       </div>
 
+      {inputValue && personajesCoincidentes.length > 0 && (
       <div className='containerStyle'>
-        {inputValue && (
-          <ul className='listapersonajes'>
-            {personajesFiltrados.length === 0 ? (
-              <li className='nofound'>No se ha encontrado nada</li>
-            ) : (
-              personajesFiltrados.map(personaje => (
-                <li className='encontrados'
-                  key={personaje.idPersonajes}
-                  onClick={() => handleListItemClick(personaje.Nombre)}
-                >
-                  {personaje.Nombre}
-                </li>
-              ))
-            )}
-          </ul>
-        )}
+        <ul className='listapersonajes'>
+          {personajesCoincidentes.map(personaje => (
+            <li
+              key={personaje.idPersonajes}
+              className='encontrados'
+              onClick={() => {
+                setInputValue(personaje.Nombre);
+                setPersonajesCoincidentes([]);
+              }}
+            >
+              {personaje.Nombre}
+            </li>
+          ))}
+        </ul>
       </div>
+    )}
 
       {showError && (
         <div className='error'>
-          <p className='errorText'>Personaje ya buscado</p>
+          <p className='errorText'>No se ha encontrado el personaje</p>
         </div>
       )}
 

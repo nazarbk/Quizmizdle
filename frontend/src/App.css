@@ -60,7 +60,7 @@ body{
 }
 
 .tabla th, .tabla td{
-  animation: fadeIn 0.8s ease-out;
+  
   text-align: center;
   padding: 8px;
   width: 70px;

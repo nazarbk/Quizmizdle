@@ -10,6 +10,7 @@ import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 function App() {
   const [personajeLista, setPersonajeLista] = useState([]);
   const [inputValue, setInputValue] = useState('');
+  const [inputValueName, setInputValueName] = useState(''); // para guardar el nombre de usuario
   const [personajePorId, setPersonajePorId] = useState(null);
   const [tablasFiltradas, setTablasFiltradas] = useState([]);
   const [personajesComparados, setPersonajesComparados] = useState(new Set()); // Conjunto para almacenar personajes comparados
@@ -99,7 +100,15 @@ function App() {
     }
   };
 
+  // Reacargamos el nombre del usuario
+  const handleInputNameChange = (event) => {
+    const inputValueName = event.target.value;
+    setInputValueName(inputValueName);
+  };
+
+  // Hook nombre de usuario
   const handleUsernameSubmit = () => {
+    console.log("Valor del nombre: ", inputValueName)
     setShowModal(false);
   };
 
@@ -110,11 +119,16 @@ function App() {
       <div className={`overlay ${showModal ? 'show' : ''}`}></div>
       {showModal && (
         <div className='modal'>
-          <h3 className='parag'>Ingresa tu Nombre de Usuario</h3>
+          {/* <h3 className='parag'>Ingresa tu Nombre de Usuario</h3>
           <input
           className='textBoxName'
             type='text'
-          />
+          /> */}
+          <input 
+            type='text' placeholder='Ingresa tu Nombre de Usuario' className='textBoxName'
+            value={inputValueName}
+            onChange={handleInputNameChange}
+          ></input>
           <button className='buttonStyleName' onClick={handleUsernameSubmit}>Guardar</button>
         </div>
       )}

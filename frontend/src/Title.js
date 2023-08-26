@@ -1,11 +1,8 @@
 import React from 'react';
+import './App.css';
 
 const Title = () => {
-    const titleStyle = {
-        paddingTop: '15px',
-    };
-
-    return <h1 style={titleStyle}>Quizmizdle</h1>;
+    return <h1 className='titlestyle'>Quizmizdle</h1>;
 };
 
 export default Title;

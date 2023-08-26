@@ -38,8 +38,13 @@
 }
 
 .App{
-  background-color: #8acbdd;
   padding-bottom: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+body{
+  background-color: rgb(0, 28, 48);
 }
 
 .carta{
@@ -50,26 +55,30 @@
 }
 
 .tabla{
-  border-spacing: 5px;
+  border-spacing: 6px;
+  margin-top: 20px;
 }
 
 .tabla th, .tabla td{
-  border: 2px solid #000;
-  border-radius: 10px;
+  animation: fadeIn 0.8s ease-out;
   text-align: center;
   padding: 8px;
   width: 70px;
+  font-family: 'Zilla Slab', serif;
+  font-size: 20px;
 }
 
 .tabla td{
-  background-color: rgba(219, 0, 0, 0.7);
+  border: 3px solid rgb(218, 255, 251);
+  background-color: rgb(187, 37, 37);
   height: 40px;
   color: white;
+  border-radius: 5px;
 }
 
 .tabla th{
+  border-bottom: 3px solid #fff;
   color: white;
-  background-color: #11637a;
 }
 .containerStyle{
   display: flex;
@@ -77,25 +86,62 @@
   align-items: center;
 }
 
+.listapersonajes{
+  list-style-type: none;
+  background-color: #61dafb;
+  padding: 5px;
+  width: 260px;
+  border-radius: 7px;
+}
+
+.encontrados{
+  padding: 5px;
+  font-family: 'Zilla Slab', serif;
+  color: white;
+  font-size: 20px;
+  border-bottom: 3px solid white;
+}
+
+.nofound{
+  padding: 5px;
+  font-family: 'Zilla Slab', serif;
+  color: white;
+  font-size: 20px;
+}
+
+.encontrados:hover{
+  background-color: white;
+  cursor: pointer;
+  color: #61dafb;
+}
+
 .textBoxStyle{
+  color: #fff;
   width: 208px;
   height: 30px;
-  border: 2px solid #000;
+  font-size: 18px;
+  border: 3.5px solid rgb(218, 255, 251);
   padding: 5px;
-  margin-right: 8px;
+  margin-right: 15px;
   border-radius: 10px;
+  background-color: rgb(23, 107, 135);
+}
+
+.textBoxStyle::placeholder{
+  color: white;
 }
 
 .buttonStyle{
   padding: 8px;
   font-size: 21px;
-  border: 2px solid #000;
+  border: 3.5px solid rgb(218, 255, 251);
   border-radius: 10px;
-  background-color: white;
+  background-color: rgb(100, 204, 197);
   transition: background-color 0.5s;
 }
 
 .buttonStyle:hover{
+  cursor: pointer;
   background-color: green;
   .iconStyle{
     color: white;
@@ -107,8 +153,19 @@
   transition: background-color 0.5s;
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .green-background {
-  background-color: rgb(0, 128, 0, 0.7) !important;
+  background-color: rgb(53, 162, 159) !important;
   color: white;
 }
 
@@ -119,7 +176,9 @@
 }
 
 .errorText{
-  background-color: #0000008f;
+  font-family: 'Zilla Slab', serif;
+  font-size: 20px;
+  background-color: rgb(11, 102, 106);
   color: white;
   width: 250px;
   padding: 10px;
@@ -127,12 +186,135 @@
 }
 
 .intentos{
-  background-color: rgb(1, 132, 116);
-  color: white;
-  margin-top: -14px;
-  padding: 2px;
+  color: rgb(218, 255, 251);
+  font-size: 20px;
+  margin-top: -7px;
+  padding: 5px;
   width: 260px;
   height: 30px;
-  border: 0px solid #000;
-  border-radius: 0 0 10px 10px;
+  transform: translate(-67px);
+  font-family: 'Zilla Slab', serif;
+}
+
+.help{
+  justify-content: center;
+  text-align: center;
+  display: flex;
+
+  color: rgb(218, 255, 251);
+  font-size: 20px;
+  margin-top: -7px;
+  width: 25px;
+  transform: translate(-20px);
+  font-family: 'Zilla Slab', serif;
+  border: 3px solid rgb(218, 255, 251);
+  border-radius: 20px;
+}
+
+.help:hover{
+  cursor: pointer;
+  color: white;
+  border: 3px solid #fff;
+}
+
+.tooltip {
+  font-family: 'Zilla Slab', serif;
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 200px;
+  padding: 5px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  border-radius: 4px;
+  font-size: 17px;
+}
+
+.help:hover .tooltip {
+  display: block;
+}
+
+.titlestyle{
+  font-family: 'Lilita One', cursive;
+  font-size: 60px;
+  color: rgb(255, 255, 255);
+}
+
+.parag{
+  font-size: 23px;
+  font-family: 'Zilla Slab', serif;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: none;
+}
+
+.overlay.show {
+  display: block;
+}
+
+/* Estilos del modal */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgb(100, 204, 197);
+  padding: 20px;
+  z-index: 1001;
+  border: 3.5px solid rgb(23, 107, 135);
+  border-radius: 10px;
+}
+
+.textBoxName{
+  font-family: 'Zilla Slab', serif;
+  width: 208px;
+  height: 30px;
+  font-size: 18px;
+  border: 3.5px solid rgb(23, 107, 135);
+  padding: 5px;
+  margin-right: 15px;
+  border-radius: 10px;
+  background-color: rgb(218, 255, 251);
+}
+
+.buttonStyleName{
+  height: 47px;
+  font-family: 'Zilla Slab', serif;
+  font-weight: bold;
+  padding: 8px;
+  font-size: 21px;
+  border: 3.5px solid rgb(23, 107, 135);
+  border-radius: 10px;
+  background-color: rgb(218, 255, 251);
+  transition: background-color 0.5s;
+  margin-top: 15px;
+}
+
+.buttonStyleName:hover{
+  color: white;
+  background-color: green;
+  border: 3.5px solid rgb(218, 255, 251);
+  .iconStyle{
+    color: white;
+  }
+}
+
+.stripe {
+  position: fixed;
+  top: 0;
+  left: 50%; /* Centrar la franja horizontalmente */
+  transform: translateX(-50%); /* Centrar correctamente */
+  width: 70%;
+  height: 100%;
+  background-color: rgb(3, 35, 60); /* Color de la franja */
+  z-index: -1; /* Colocar detrás de otros elementos */
 }

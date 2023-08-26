@@ -1,0 +1,17 @@
+{
+  "personajes": [
+    {"idPersonajes": 1, "Nombre": "Finn", "Genero": "Masculino", "Especie": "Humano", "Ocupación": "Héroe", "Serie": "Hora de aventuras", "Categoría": "Dibujos animados"},
+    {"idPersonajes": 2, "Nombre": "Jake", "Genero": "Masculino", "Especie": "Perro", "Ocupación": "Acompañante", "Serie": "Hora de aventuras", "Categoría": "Dibujos animados"},
+    {"idPersonajes": 3, "Nombre": "Princesa chicle", "Genero": "Femenino", "Especie": "Golem de chicle", "Ocupación": "Científica", "Serie": "Hora de aventuras", "Categoría": "Dibujos animados"},
+    {"idPersonajes": 4, "Nombre": "Marceline", "Genero": "Femenino", "Especie": "Vampira", "Ocupación": "Compositora", "Serie": "Hora de aventuras", "Categoría": "Dibujos animados"},
+    {"idPersonajes": 5, "Nombre": "Rey hielo", "Genero": "Masculino", "Especie": "Mago", "Ocupación": "Antagonista", "Serie": "Hora de aventuras", "Categoría": "Dibujos animados"},
+    {"idPersonajes": 6, "Nombre": "Don polvoron", "Genero": "Masculino", "Especie": "Dulce", "Ocupación": "Porta tartas", "Serie": "Hora de aventuras", "Categoría": "Dibujos animados"},
+    {"idPersonajes": 7, "Nombre": "Mayordomo menta", "Genero": "Masculino", "Especie": "Dulce", "Ocupación": "Mayordomo", "Serie": "Hora de aventuras", "Categoría": "Dibujos animados"},
+    {"idPersonajes": 8, "Nombre": "BMO", "Genero": "Sin definir", "Especie": "MO", "Ocupación": "Consola", "Serie": "Hora de aventuras", "Categoría": "Dibujos animados"},
+    {"idPersonajes": 9, "Nombre": "Naruto", "Genero": "Masculino", "Especie": "Humano", "Ocupación": "Héroe", "Serie": "Naruto", "Categoría": "Anime"},
+    {"idPersonajes": 10, "Nombre": "Sasuke", "Genero": "Masculino", "Especie": "Humano", "Ocupación": "Ninja renegado", "Serie": "Naruto", "Categoría": "Anime"},
+    {"idPersonajes": 11, "Nombre": "Jiraya", "Genero": "Masculino", "Especie": "Humano", "Ocupación": "Maestro", "Serie": "Naruto", "Categoría": "Anime"},
+    {"idPersonajes": 12, "Nombre": "Goku", "Genero": "Masculino", "Especie": "Saiyayin", "Ocupación": "Artista marcial", "Serie": "Dragon Ball Z", "Categoría": "Anime"},
+    {"idPersonajes": 13, "Nombre": "Vegeta", "Genero": "Masculino", "Especie": "Saiyayin", "Ocupación": "Príncipe", "Serie": "Dragon Ball Z", "Categoría": "Anime"}
+  ]
+}

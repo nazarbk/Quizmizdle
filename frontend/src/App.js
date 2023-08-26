@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import Title from './Title';
 import Paragraph from './Paragraph';
-import Axios from 'axios';
+import data from './personajes.json';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
@@ -16,27 +16,42 @@ function App() {
   const [showError, setShowError] = useState(false);
   const [intentos, setIntentos] = useState(0);
   const [hasWon, setHasWon] = useState(false);
+  const [showModal, setShowModal] = useState(true);
+  const [personajesFiltrados, setPersonajesFiltrados] = useState([]);
+
 
   useEffect(() => {
-    Axios.get('http://localhost:3001/personajes').then((response) => {
-      setPersonajeLista(response.data);
+    setPersonajeLista(data.personajes);
 
-      // Calcula el rango de IDs disponibles
-      const idRange = response.data.map((personaje) => personaje.idPersonajes);
-      
-      // Genera un número aleatorio dentro del rango de IDs
-      const randomIndex = Math.floor(Math.random() * idRange.length);
-      const randomId = idRange[randomIndex];
-      
-      // Encuentra el personaje con el ID aleatorio
-      const personajeCargado = response.data.find((personaje) => personaje.idPersonajes === randomId);
-      setPersonajePorId(personajeCargado);
-      });
-  }, []);
+    if (!inputValue) {
+      setPersonajesFiltrados([]); // Limpia la lista de personajes filtrados
+      return;
+    }
+
+    // Calcula el rango de IDs disponibles
+    const idRange = data.personajes.map((personajes) => personajes.idPersonajes);
+    
+    // Genera un número aleatorio dentro del rango de IDs
+    const randomIndex = Math.floor(Math.random() * idRange.length);
+    const randomId = idRange[randomIndex];
+    
+    // Encuentra el personaje con el ID aleatorio
+    const personajeCargado = data.personajes.find((personajes) => personajes.idPersonajes === randomId);
+    setPersonajePorId(personajeCargado);
+
+    const personajesFiltrados = personajeLista.filter(personaje =>
+      personaje.Nombre.toLowerCase().includes(inputValue.toLowerCase())
+    );
+    setPersonajesFiltrados(personajesFiltrados);
+  }, [inputValue, personajeLista]);
 
   const handleInputChange = (event) => {
-    setInputValue(event.target.value); // Restablecer el estado del mensaje al escribir
+    setInputValue(event.target.value);
     setShowError(false);
+  };
+
+  const handleListItemClick = (nombre) => {
+    setInputValue(nombre);
   };
 
   const verificarNombre = () => {
@@ -55,6 +70,7 @@ function App() {
       if (todasLasCaracteristicasCoinciden) {
         setHasWon(true);
       }
+
       setIntentos(intentos + 1);
 
       const nuevaTablaFiltrada = (
@@ -65,9 +81,9 @@ function App() {
                 <th>Personaje</th>
                 <th>Genero</th>
                 <th>Especie</th>
-                <th>Habilidad</th>
-                <th>Region</th>
-                <th>Arma</th>
+                <th>Ocupación</th>
+                <th>Serie</th>
+                <th>Categoría</th>
               </tr>
             </thead>
             <tbody>
@@ -75,9 +91,9 @@ function App() {
                 <td className={personajeEncontrado.Nombre === personajePorId.Nombre ? 'green-background' : ''}>{personajeEncontrado.Nombre}</td>
                 <td className={personajeEncontrado.Genero === personajePorId.Genero ? 'green-background' : ''}>{personajeEncontrado.Genero}</td>
                 <td className={personajeEncontrado.Especie === personajePorId.Especie ? 'green-background' : ''}>{personajeEncontrado.Especie}</td>
-                <td className={personajeEncontrado.Habilidad === personajePorId.Habilidad ? 'green-background' : ''}>{personajeEncontrado.Habilidad}</td>
-                <td className={personajeEncontrado.Region === personajePorId.Region ? 'green-background' : ''}>{personajeEncontrado.Region}</td>
-                <td className={personajeEncontrado.Arma === personajePorId.Arma ? 'green-background' : ''}>{personajeEncontrado.Arma}</td>
+                <td className={personajeEncontrado.Ocupación === personajePorId.Ocupación ? 'green-background' : ''}>{personajeEncontrado.Ocupación}</td>
+                <td className={personajeEncontrado.Serie === personajePorId.Serie ? 'green-background' : ''}>{personajeEncontrado.Serie}</td>
+                <td className={personajeEncontrado.Categoría === personajePorId.Categoría ? 'green-background' : ''}>{personajeEncontrado.Categoría}</td>
               </tr>
             </tbody>
           </table>
@@ -86,20 +102,44 @@ function App() {
 
       setTablasFiltradas([...tablasFiltradas, nuevaTablaFiltrada]);
       setPersonajesComparados(new Set(personajesComparados).add(personajeEncontrado.idPersonajes));
-      
+
+      setInputValue('');
     } else{
       setShowError(true);
     }
   };
 
+  const handleUsernameSubmit = () => {
+    setShowModal(false);
+  };
+
   return (
     <div className='App'>
-      <Title />
-      <Paragraph />
+      <div className='stripe'></div>
 
+      <div className={`overlay ${showModal ? 'show' : ''}`}></div>
+      {showModal && (
+        <div className='modal'>
+          <h3 className='parag'>Ingresa tu Nombre de Usuario</h3>
+          <input
+          className='textBoxName'
+            type='text'
+          />
+          <button className='buttonStyleName' onClick={handleUsernameSubmit}>Guardar</button>
+        </div>
+      )}
+
+      <Title />
       <div className='containerStyle'>
         <p className='intentos'>Intentos: {intentos}</p>
+        <p
+          className='help'
+          data-tooltip='Este es el contenido del popup'
+        >
+          ?<span className="tooltip">El juego consiste en adivinar el personaje seleccionado del día. Para empezar has de escribir un personaje en la barra de búsqueda, si las carácteristicas de el personaje que has escrito coinciden con las del personaje seleccionado estas se marcarán en verde. Si las caracteristicas no coinciden estas se marcarán en rojo. Mucha suerte!!</span>
+        </p>
       </div>
+      <Paragraph />
 
       <div className='containerStyle'>
       {hasWon ? (
@@ -118,9 +158,28 @@ function App() {
       )}
       </div>
 
+      <div className='containerStyle'>
+        {inputValue && (
+          <ul className='listapersonajes'>
+            {personajesFiltrados.length === 0 ? (
+              <li className='nofound'>No se ha encontrado nada</li>
+            ) : (
+              personajesFiltrados.map(personaje => (
+                <li className='encontrados'
+                  key={personaje.idPersonajes}
+                  onClick={() => handleListItemClick(personaje.Nombre)}
+                >
+                  {personaje.Nombre}
+                </li>
+              ))
+            )}
+          </ul>
+        )}
+      </div>
+
       {showError && (
         <div className='error'>
-          <p className='errorText'>No se ha encontrado el personaje</p>
+          <p className='errorText'>Personaje ya buscado</p>
         </div>
       )}
 

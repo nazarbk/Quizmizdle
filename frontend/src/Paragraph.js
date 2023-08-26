@@ -1,4 +1,5 @@
 import React from 'react';
+import './App.css';
 
 const Paragraph = () => {
     const containerStyle = {
@@ -9,15 +10,17 @@ const Paragraph = () => {
 
     const paragraphStyle = {
         padding: '20px',
-        borderRadius: '10px 10px 0 0',
-        border: '2px solid black',
-        width: '220px',
-        backgroundColor: 'rgba(255, 255, 255, 0.4)'
+        width: '230px' ,
+        borderRadius: '10px',
+        border: '3.5px solid rgb(218, 255, 251)',
+        backgroundColor: 'rgb(23, 107, 135)',
+        color: 'rgb(218, 255, 251)',
+        marginTop: '-12px',
     };
 
     return(
         <div style={containerStyle}>
-            <h3 style={paragraphStyle}>¡Adivina el personaje animado del día!</h3>
+            <h3 style={paragraphStyle} className='parag'>¡Adivina el personaje animado del día!</h3>
         </div>
     );
 };

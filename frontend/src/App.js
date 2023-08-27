@@ -3,6 +3,7 @@ import './App.css';
 import Title from './Title';
 import Paragraph from './Paragraph';
 import data from './personajes.json';
+import axios from 'axios';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
@@ -102,13 +103,23 @@ function App() {
 
   // Reacargamos el nombre del usuario
   const handleInputNameChange = (event) => {
+    console.log("Entra cambio de nombre")
     const inputValueName = event.target.value;
     setInputValueName(inputValueName);
   };
 
   // Hook nombre de usuario
-  const handleUsernameSubmit = () => {
-    console.log("Valor del nombre: ", inputValueName)
+  const handleUsernameSubmit = async () => {
+    console.log("Valor del nombre: ", inputValueName);
+    try {
+      const response = await axios.post('http://localhost:3000/agregarJugador', {
+        nombre: inputValueName,
+      });
+
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error al agregar jugador:', error);
+    }
     setShowModal(false);
   };
 

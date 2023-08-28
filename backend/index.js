@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const cron = require("node-cron");
+const { ObjectId } = require("mongodb");
 
 mongoose.connect("mongodb://127.0.0.1:27017/jugadores"); // localhost 127.0.0.1
 let app = express();
@@ -15,6 +16,7 @@ app.listen(3000, () => {
 //Modelo de jugador
 const jugadorSchema = new mongoose.Schema({
   nombre: String,
+  intentos: {type: Number, default: 0} 
 });
 
 const Jugador = mongoose.model("Jugador", jugadorSchema, "jugadores");
@@ -61,5 +63,36 @@ cron.schedule("0 0 * * *", async () => {
 });
 
 //PUT /jugadores/intentos: función para agregar los intentos de cada jugador para hacer ranking
+app.put("/jugadores/intentos/:id", async (req, res) => {
+  console.log("req body: ", req.body);
+  console.log("req params: ", req.params, " y req.params.id: ", typeof req.params.id);
+  const playerId = new ObjectId(req.params.id);
+  const newIntentos = req.body.intentos;
+
+  const jugador = await Jugador.findById(playerId);
+
+  if (!jugador) {
+    return res.status(404).json({ error: "Jugador no encontrado" });
+  }
+
+  // Actualizar la puntuación del jugador
+  jugador.intentos = newIntentos;
+
+  await jugador.save();
+
+  return res.json({
+    message: "Intentos actualizados exitosamente",
+    jugador: jugador,
+  });
+});
 
 //GET /jugadores/ranking: función para devolver el ranking de los jugadores según sus intentos
+app.get("/jugadores/ranking", async (req, res) => {
+  try {
+    const jugadores = await Jugador.find().sort({ intentos: 1 }); // Orden ascendente por intentos
+    res.json(jugadores);
+  } catch (error) {
+    console.error("Error al obtener jugadores:", error);
+    res.status(500).json({ error: "Error al obtener jugadores" });
+  }
+});

@@ -10,11 +10,11 @@ const Paragraph = () => {
 
     const paragraphStyle = {
         padding: '20px',
-        width: '230px' ,
+        width: '240px' ,
         borderRadius: '10px',
         border: '3.5px solid rgb(218, 255, 251)',
         backgroundColor: 'rgb(23, 107, 135)',
-        color: 'rgb(218, 255, 251)',
+        color: 'rgb(255, 255, 255)',
         marginTop: '-12px',
     };
 

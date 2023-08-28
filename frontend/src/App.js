@@ -6,7 +6,7 @@ import data from './personajes.json';
 import axios from 'axios';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { faPaperPlane, faCrown, faRankingStar, faQuestion} from '@fortawesome/free-solid-svg-icons';
 
 function App() {
   const [personajeLista, setPersonajeLista] = useState([]);
@@ -143,15 +143,18 @@ function App() {
           <button className='buttonStyleName' onClick={handleUsernameSubmit}>Guardar</button>
         </div>
       )}
-
+      
       <Title />
       <div className='containerStyle'>
         <p className='intentos'>Intentos: {intentos}</p>
+        <p className='rank'>
+        <a href="#ranking-section"><FontAwesomeIcon icon={faRankingStar} className='rankicon'/></a>
+        </p>
         <p
           className='help'
           data-tooltip='Este es el contenido del popup'
         >
-          ?<span className="tooltip">El juego consiste en adivinar el personaje seleccionado del día. Para empezar has de escribir un personaje en la barra de búsqueda, si las carácteristicas de el personaje que has escrito coinciden con las del personaje seleccionado estas se marcarán en verde. Si las caracteristicas no coinciden estas se marcarán en rojo. Mucha suerte!!</span>
+        <FontAwesomeIcon icon={faQuestion}/><span className="tooltip">El juego consiste en adivinar el personaje seleccionado del día. Para empezar has de escribir un personaje en la barra de búsqueda, si las carácteristicas de el personaje que has escrito coinciden con las del personaje seleccionado estas se marcarán en verde. Si las caracteristicas no coinciden estas se marcarán en rojo. Mucha suerte!!</span>
         </p>
       </div>
       <Paragraph />
@@ -199,6 +202,46 @@ function App() {
       )}
 
       {tablasFiltradas.slice().reverse().map((tabla) => tabla)}
+
+      <h2 className='titrank'><FontAwesomeIcon icon={faCrown} className='corona'/> Ranking Diario</h2>
+
+      <div className='ranking' id="ranking-section">
+          {/* Ranking */}
+          <table className='paper-table'>
+            <thead>
+              <tr>
+                <th>Usuario</th>
+                <th>Intentos</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Juanma</td>
+                <td>1</td>
+              </tr>
+              <tr>
+                <td>Jaime</td>
+                <td>2</td>
+              </tr>
+              <tr>
+                <td>Quizmiz</td>
+                <td>11</td>
+              </tr>
+              <tr>
+                <td>Mario</td>
+                <td>19</td>
+              </tr>
+              <tr>
+                <td>Pablico</td>
+                <td>19</td>
+              </tr>
+              <tr>
+                <td>Jorge</td>
+                <td>24</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
     </div>
   );
 }

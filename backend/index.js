@@ -16,7 +16,8 @@ app.listen(3000, () => {
 //Modelo de jugador
 const jugadorSchema = new mongoose.Schema({
   nombre: String,
-  intentos: {type: Number, default: 0} 
+  intentos: {type: Number, default: 999} ,
+  ip: String
 });
 
 const Jugador = mongoose.model("Jugador", jugadorSchema, "jugadores");
@@ -35,11 +36,18 @@ app.get("/jugadores", (req, res) => {
 // POST /jugadores: función para agregar un nuevo jugador a la BD
 
 app.post("/agregarJugador", async (req, res) => {
-  const { nombre } = req.body;
+  const { nombre, ip } = req.body;
   console.log("Este es el req: ", req.body);
+  console.log("Esta es la ip: ", req.ip);
 
   try {
-    const nuevoJugador = new Jugador({ nombre });
+    //Comprobamos si la IP ya está registrada
+    const existingPlayer = await Jugador.findOne({ ip: ip });
+    if (existingPlayer) {
+      console.log("IP ya registrada");
+      return res.status(400).json({ message: 'Ya has registrado tu IP anteriormente.' });
+    }
+    const nuevoJugador = new Jugador({ nombre, ip });
     await nuevoJugador.save();
     res.json({
       mensaje: "Jugador agregado exitosamente",
@@ -89,8 +97,26 @@ app.put("/jugadores/intentos/:id", async (req, res) => {
 //GET /jugadores/ranking: función para devolver el ranking de los jugadores según sus intentos
 app.get("/jugadores/ranking", async (req, res) => {
   try {
-    const jugadores = await Jugador.find().sort({ intentos: 1 }); // Orden ascendente por intentos
+    const jugadores = await Jugador.find().sort({ intentos: 1 }).limit(10); // Orden ascendente por intentos
     res.json(jugadores);
+  } catch (error) {
+    console.error("Error al obtener jugadores:", error);
+    res.status(500).json({ error: "Error al obtener jugadores" });
+  }
+});
+
+//GET /jugadores/ranking: función para devolver el ranking del jugador
+app.get("/jugadores/ranking/:id", async (req, res) => {
+  try {
+    const playerId = req.params.id;
+    console.log("req params: ", req.params, " y req.params.id: ", typeof req.params.id);
+    const jugadores = await Jugador.find().sort({ intentos: 1 }).limit(10);
+    const playerPosition = jugadores.findIndex(player => player._id.toString() === playerId);
+    console.log("Posicion ranking: ", playerPosition +1);
+    return res.json({
+      message: "Intentos actualizados exitosamente",
+      posicion: playerPosition + 1
+    });
   } catch (error) {
     console.error("Error al obtener jugadores:", error);
     res.status(500).json({ error: "Error al obtener jugadores" });

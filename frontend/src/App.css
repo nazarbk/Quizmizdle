@@ -55,6 +55,7 @@ body{
 }
 
 .tabla{
+  animation: fadeIn 1s ease forwards;
   border-spacing: 6px;
   margin-top: 20px;
 }
@@ -68,11 +69,14 @@ body{
 }
 
 .tabla td{
+  height: 45px;
   border: 3px solid rgb(218, 255, 251);
   background-color: rgb(187, 37, 37);
   height: 70px;
   color: white;
   border-radius: 5px;
+
+  box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.7);
 }
 
 .tabla th{
@@ -124,6 +128,7 @@ body{
   margin-right: 15px;
   border-radius: 10px;
   background-color: rgb(23, 107, 135);
+  box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.7);
 }
 
 .textBoxStyle::placeholder{
@@ -137,6 +142,7 @@ body{
   border-radius: 10px;
   background-color: rgb(100, 204, 197);
   transition: background-color 0.5s;
+  box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.7);
 }
 
 .buttonStyle:hover{
@@ -160,6 +166,62 @@ body{
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes aparecer {
+  0% {
+    transform: rotateY(180deg);
+    opacity: 0;
+  }
+  100% {
+    transform: rotateY(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes floating {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
+}
+
+@keyframes pause {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(0deg);
+  }
+}
+
+@keyframes rotateAndPause {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  12.5%, 37.5% {
+    transform: rotate(90deg);
+  }
+  25%, 62.5% {
+    transform: rotate(180deg);
+  }
+  50%, 87.5% {
+    transform: rotate(270deg);
   }
 }
 
@@ -239,6 +301,7 @@ body{
 }
 
 .parag{
+  box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.7);
   font-size: 23px;
   font-family: 'Zilla Slab', serif;
 }
@@ -324,6 +387,9 @@ body{
 
 .corona{
   color: rgb(255, 253, 140);
+  
+  animation: spin 2s linear infinite;
+  transform-style: preserve-3d;
 }
 
 .ranking{
@@ -374,6 +440,8 @@ body{
     background-size:5px 5px;
     background-repeat: repeat-y;
   }
+
+  box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.7);
 }
 
 .paper-table td, .paper-table th{
@@ -385,7 +453,7 @@ body{
   text-align: center;
   display: flex;
 
-  font-size: 20px;
+  font-size: 22px;
   transform: translate(-41px);
   font-family: 'Zilla Slab', serif;
 }
@@ -396,4 +464,52 @@ body{
 
 .rankicon:hover{
   color: white;
+}
+
+.titulopopup{
+  color: rgb(0, 28, 48);
+  font-family: 'Zilla Slab', serif;
+}
+
+.winCard{
+  border: 3.5px solid rgb(151, 255, 244);
+  border-radius: 8px;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 260px;
+  background-color: rgb(11, 102, 106);
+  box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.7);
+
+  animation: aparecer 1s ease-in-out;
+  transform-origin: center bottom;
+}
+
+.winText{
+  font-size: 30px;
+  font-weight: bold;
+  font-family: 'Zilla Slab', serif;
+  color: white;
+}
+
+.wintrys{
+  font-size: 20px;
+  color: white;
+  font-family: 'Zilla Slab', serif;
+}
+
+.barra{
+  font-size: 20px;
+  font-family: 'Zilla Slab', serif;
+  padding-top: 17px;
+  color: rgb(218, 255, 251);
+  border-top: 3px solid rgb(218, 255, 251);
+}
+
+.horas{
+  color: white;
+  font-family: 'Zilla Slab', serif;
+  margin-top: -10px;
+  margin-bottom: 20px;
+  font-size: 40px;
+  font-weight: bold;
 }

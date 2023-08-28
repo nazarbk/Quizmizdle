@@ -4,6 +4,7 @@ import Title from './Title';
 import Paragraph from './Paragraph';
 import data from './personajes.json';
 import axios from 'axios';
+import CountdownClock from './CountdownClock';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane, faCrown, faRankingStar, faQuestion} from '@fortawesome/free-solid-svg-icons';
@@ -20,20 +21,37 @@ function App() {
   const [hasWon, setHasWon] = useState(false);
   const [showModal, setShowModal] = useState(true);
   const [personajesCoincidentes, setPersonajesCoincidentes] = useState([]);
+
   useEffect(() => {
     setPersonajeLista(data.personajes);
 
-      // Calcula el rango de IDs disponibles
-      const idRange = data.personajes.map((personajes) => personajes.idPersonajes);
+    // Obtener el personaje aleatorio del almacenamiento local
+    const storedCharacter = JSON.parse(localStorage.getItem('selectedCharacter'));
+    
+    if (storedCharacter && isSameDay(new Date(storedCharacter.date), new Date())) {
+      setPersonajePorId(storedCharacter.character);
+    } else {
+      // Generar un personaje aleatorio
+      const randomIndex = Math.floor(Math.random() * data.personajes.length);
+      const randomCharacter = data.personajes[randomIndex];
       
-      // Genera un número aleatorio dentro del rango de IDs
-      const randomIndex = Math.floor(Math.random() * idRange.length);
-      const randomId = idRange[randomIndex];
-      
-      // Encuentra el personaje con el ID aleatorio
-      const personajeCargado = data.personajes.find((personajes) => personajes.idPersonajes === randomId);
-      setPersonajePorId(personajeCargado);
+      // Guardar el personaje aleatorio y la fecha actual en el almacenamiento local
+      const selectedCharacter = {
+        character: randomCharacter,
+        date: new Date().toISOString(),
+      };
+      localStorage.setItem('selectedCharacter', JSON.stringify(selectedCharacter));
+      setPersonajePorId(randomCharacter);
+    }
   }, []);
+
+  function isSameDay(date1, date2) {
+    return (
+      date1.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getDate() === date2.getDate()
+    );
+  }
 
   const handleInputChange = (event) => {
     const inputValue = event.target.value;
@@ -140,6 +158,7 @@ function App() {
       <div className={`overlay ${showModal ? 'show' : ''}`}></div>
       {showModal && (
         <div className='modal'>
+          <h2 className='titulopopup'>Bienvenido a Quizmizdle!!</h2>
           {/* <h3 className='parag'>Ingresa tu Nombre de Usuario</h3>
           <input
           className='textBoxName'
@@ -171,7 +190,11 @@ function App() {
 
       <div className='containerStyle'>
       {hasWon ? (
-        <p className='errorText'>¡Has ganado!</p>
+        <div className='winCard'>
+          <p className='winText'>¡Has ganado!</p>
+          <p className='barra'>Próximo personaje:</p>
+          <CountdownClock/>
+        </div>
       ) : (
         <>
           <input 

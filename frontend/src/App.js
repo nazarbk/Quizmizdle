@@ -47,7 +47,7 @@ function App() {
     setShowError(false);
   };
 
-  const verificarNombre = () => {
+  const verificarNombre = async () => {
     const personajeEncontrado = personajeLista.find((personaje) => personaje.Nombre === inputValue);
     
     if (personajeEncontrado && !personajesComparados.has(personajeEncontrado.idPersonajes)) {
@@ -62,6 +62,14 @@ function App() {
 
       if (todasLasCaracteristicasCoinciden) {
         setHasWon(true);
+        try {
+          const response = await axios
+          .put(`http://localhost:3000/jugadores/intentos/${localStorage.getItem('userId')}`, { intentos: intentos });
+    
+          console.log("Esto devuelve el res: ",response.data);
+        } catch (error) {
+          console.error('Error al agregar jugador:', error);
+        }
       }
 
       setIntentos(intentos + 1);
@@ -116,7 +124,9 @@ function App() {
         nombre: inputValueName,
       });
 
-      console.log(response.data);
+      console.log("Esto devuelve el res: ",response.data.jugador._id);
+      localStorage.setItem('userId', response.data.jugador._id);
+      console.log("ID local storage: ", localStorage.getItem('userId'));
     } catch (error) {
       console.error('Error al agregar jugador:', error);
     }

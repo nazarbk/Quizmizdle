@@ -69,7 +69,7 @@ function App() {
   const cargaRanking = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/jugadores/ranking`
+        `https://quismizdle.onrender.com/jugadores/ranking`
       );
       setRanking(response.data);
       console.log("Esto devuelve el res: ", response.data);
@@ -111,7 +111,7 @@ function App() {
         setHasWon(true);
         try {
           const response = await axios.put(
-            `http://localhost:3000/jugadores/intentos/${localStorage.getItem(
+            `https://quismizdle.onrender.com/jugadores/intentos/${localStorage.getItem(
               "userId"
             )}`,
             { intentos: intentos + 1 }
@@ -123,7 +123,7 @@ function App() {
         }
         try {
           const response = await axios.get(
-            `http://localhost:3000/jugadores/ranking/${localStorage.getItem(
+            `https://quismizdle.onrender.com/jugadores/ranking/${localStorage.getItem(
               "userId"
             )}`
           );
@@ -233,7 +233,7 @@ function App() {
     console.log("Valor del nombre: ", inputValueName);
     try {
       const response = await axios.post(
-        "http://localhost:3000/agregarJugador",
+        "https://quismizdle.onrender.com/agregarJugador",
         {
           nombre: inputValueName,
         }

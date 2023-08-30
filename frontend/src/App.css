@@ -513,3 +513,53 @@ body{
   font-size: 40px;
   font-weight: bold;
 }
+
+.resultadowin{
+  color: rgb(218, 255, 251);
+  font-family: 'Zilla Slab', serif;
+  font-size: 20px;
+}
+
+.shareStyle{
+  margin-top: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.shareText{
+  padding-left: 10px;
+  padding-right: 10px;
+  color: white;
+  font-family: 'Zilla Slab', serif;
+  font-size: 20px;
+}
+
+.winCard2{
+  border: 3.5px solid rgb(218, 255, 251);
+  border-radius: 8px;
+  padding: 10px;
+  width: 260px;
+  background-color: rgb(12, 50, 77);
+  box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.7);
+}
+
+.shareButtonStyle{
+  font-family: 'Zilla Slab', serif;
+  font-weight: bold;
+  margin: 10px;
+  padding: 10px;
+  font-size: 20px;
+  border: 3.5px solid rgb(218, 255, 251);
+  border-radius: 10px;
+  background-color: rgb(100, 204, 197);
+}
+
+.shareButtonStyle:hover{
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+.shareLink{
+  color: rgb(151, 255, 244);
+}

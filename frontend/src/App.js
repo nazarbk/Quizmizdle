@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import './App.css';
 import Title from './Title';
 import Paragraph from './Paragraph';
@@ -7,7 +7,7 @@ import axios from 'axios';
 import CountdownClock from './CountdownClock';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaperPlane, faCrown, faRankingStar, faQuestion} from '@fortawesome/free-solid-svg-icons';
+import { faPaperPlane, faCrown, faRankingStar, faQuestion, faCopy, faShare } from '@fortawesome/free-solid-svg-icons';
 
 function App() {
   const [personajeLista, setPersonajeLista] = useState([]);
@@ -23,6 +23,49 @@ function App() {
   const [personajesCoincidentes, setPersonajesCoincidentes] = useState([]);
   const [posicion, setPosicion] = useState(0); // para mostrar el ranking del jugador cuando acierte
   const [ranking, setRanking] = useState([]);  // para guardar el ranking del día
+  
+  const quizmizurl = "https://quizmizdle-4652a.web.app/";
+
+  const divContent = (
+    <div>
+      <p className='shareText'>
+        He encontrado el campeón de #Quizmizdle en {intentos} intentos ☝️🤓
+      </p>
+      <p className='shareText'>
+        Visita: <a className='shareLink' href={quizmizurl}>{quizmizurl}</a>
+      </p>
+    </div>
+  );
+
+  const divRef = useRef(null);
+
+  const handleCopyClick = () => {
+    const range = document.createRange();
+    range.selectNode(divRef.current);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+
+    try {
+      document.execCommand("copy");
+      alert("Contenido copiado al portapapeles");
+    } catch (error) {
+      console.error("Error al copiar:", error);
+    }
+
+    window.getSelection().removeAllRanges();
+  };
+
+  const divContent2 = `
+    He encontrado el campeón de #Quizmizdle en ${intentos} intentos ☝️🤓
+
+Visita: ${quizmizurl}
+  `;
+
+  const handleWhatsAppClick = () => {
+    const encodedContent = encodeURIComponent(divContent2);
+    const whatsappURL = `https://api.whatsapp.com/send?text=${encodedContent}`;
+    window.open(whatsappURL);
+  };
 
   useEffect(() => {
     setPersonajeLista(data.personajes);
@@ -191,7 +234,7 @@ function App() {
                 <td
                   className={
                     personajeEncontrado.Serie === personajePorId.Serie
-                      ? "green-background"
+                      ? "green-background" 
                       : ""
                   }
                 >
@@ -300,10 +343,11 @@ function App() {
         {hasWon ? (
           <div className="winCard">
             <p className="winText">¡Has ganado!</p>
-            <p>
-              {inputValueName} #{posicion}
+            <p className='resultadowin'>
+              Posición actual en
+              <br></br> el ranking #{posicion}
             </p>
-            <p className="barra">Próximo personaje:</p>
+            <p className="barra">Próximo personaje</p>
             <CountdownClock />
           </div>
         ) : (
@@ -374,6 +418,22 @@ function App() {
           ))}
           </tbody>
         </table>
+      </div>
+
+      <div className='shareStyle'>
+        {hasWon ? (
+        <div className='winCard2'>
+          <h2 className='winText'>Comparte YA !</h2>
+          <div className='shareText' ref={divRef}>{divContent}</div>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <button className="shareButtonStyle" onClick={handleCopyClick}><FontAwesomeIcon icon={faCopy}/> Copiar</button>
+            <button className="shareButtonStyle" onClick={handleWhatsAppClick}><FontAwesomeIcon icon={faShare}/> Compartir</button>
+          </div>
+        </div>
+        ) : (
+          <>
+          </>
+        )}
       </div>
     </div>
   );

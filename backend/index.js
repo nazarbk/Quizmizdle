@@ -23,6 +23,18 @@ const jugadorSchema = new mongoose.Schema({
 });
 
 const Jugador = mongoose.model("Jugador", jugadorSchema, "jugadores");
+const Personaje = mongoose.model("Personaje", jugadorSchema, "personajes");
+
+// GET /personajes: función que devuelve los personajes de la BD
+app.get("/personajes", (req, res) => {
+  Jugador.find()
+    .then((resultado) => {
+      res.status(200).send({ ok: true, resultado: resultado });
+    })
+    .catch((error) => {
+      res.status(500).send({ ok: false, error: "Error obteniendo personajes" });
+    });
+});
 
 // GET /jugadores: función que devuelve los jugadores de la BD
 app.get("/jugadores", (req, res) => {

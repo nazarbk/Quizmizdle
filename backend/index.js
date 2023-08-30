@@ -48,7 +48,7 @@ app.post("/agregarJugador", async (req, res) => {
   const ipAddress = req.socket.remoteAddress;
   console.log("Otra IP: ", ipAddress);
   console.log("headers: ", req.headers['true-client-ip']);
-  const ipclient = req.headers['true-client-ip'](',');
+  const ipclient = req.headers['true-client-ip'].split(',');
   ipclient = ipclient[0];
   console.log("IP client: ", ipclient);
 

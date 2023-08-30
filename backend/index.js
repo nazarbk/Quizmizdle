@@ -45,6 +45,9 @@ app.post("/agregarJugador", async (req, res) => {
   var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
   console.log("IP rial: ", ip);
 
+  const ipAddress = req.socket.remoteAddress;
+  console.log("Otra IP: ", ipAddress);
+
   try {
     //Comprobamos si la IP ya está registrada
     const existingPlayer = await Jugador.findOne({ ip: ip });

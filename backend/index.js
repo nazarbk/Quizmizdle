@@ -4,7 +4,7 @@ const cors = require("cors");
 const cron = require("node-cron");
 const { ObjectId } = require("mongodb");
 
-mongoose.connect("mongodb://127.0.0.1:27017/jugadores"); // localhost 127.0.0.1
+mongoose.connect("mongodb+srv://javimgdev:NVLtMNxEicDB08WX@cluster0.cuvzbwo.mongodb.net/"); // localhost 127.0.0.1
 let app = express();
 app.use(express.json());
 app.use(cors());

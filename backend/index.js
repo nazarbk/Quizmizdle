@@ -59,7 +59,7 @@ app.post("/agregarJugador", async (req, res) => {
       console.log("IP ya registrada");
       return res.status(400).json({ message: 'Ya has registrado tu IP anteriormente.' });
     }
-    const nuevoJugador = new Jugador({ nombre, ip });
+    const nuevoJugador = new Jugador({ nombre, ipclient });
     await nuevoJugador.save();
     res.json({
       mensaje: "Jugador agregado exitosamente",

@@ -13,6 +13,8 @@ app.listen(3000, () => {
   console.log("Servidor escuchando en el puerto 3000");
 });
 
+app.set('trust proxy', true);
+
 //Modelo de jugador
 const jugadorSchema = new mongoose.Schema({
   nombre: String,
@@ -36,9 +38,12 @@ app.get("/jugadores", (req, res) => {
 // POST /jugadores: función para agregar un nuevo jugador a la BD
 
 app.post("/agregarJugador", async (req, res) => {
-  const { nombre, ip } = req.body;
+  const { nombre} = req.body;
   console.log("Este es el req: ", req.body);
   console.log("Esta es la ip: ", req.ip);
+
+  var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
+  console.log("IP rial: ", ip);
 
   try {
     //Comprobamos si la IP ya está registrada

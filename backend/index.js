@@ -48,10 +48,13 @@ app.post("/agregarJugador", async (req, res) => {
   const ipAddress = req.socket.remoteAddress;
   console.log("Otra IP: ", ipAddress);
   console.log("headers: ", req.headers['true-client-ip']);
+  const ipclient = req.headers['true-client-ip'](',');
+  ipclient = ipclient[0];
+  console.log("IP client: ", ipclient);
 
   try {
     //Comprobamos si la IP ya está registrada
-    const existingPlayer = await Jugador.findOne({ ip: req.headers['true-client-ip'] });
+    const existingPlayer = await Jugador.findOne({ ip: ipclient });
     if (existingPlayer) {
       console.log("IP ya registrada");
       return res.status(400).json({ message: 'Ya has registrado tu IP anteriormente.' });

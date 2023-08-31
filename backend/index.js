@@ -37,7 +37,6 @@ app.get("/jugadores", (req, res) => {
 
 // GET /jugadores: función que devuelve los jugadores de la BD
 app.get("/comprobarip", async (req, res) => {
-  try{
     const ip = req.ip;
     const existingPlayer = await Jugador.findOne({ ip: ip });
     let variable= false
@@ -49,12 +48,6 @@ app.get("/comprobarip", async (req, res) => {
         mensaje: "Get ip correcta",
         ipregistrada: variable,
       });
-  }
-  catch (error) {
-    res
-      .status(500)
-      .json({ mensaje: "Error get IP", error: error.message });
-  }
   
 });
 

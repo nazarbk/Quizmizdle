@@ -140,11 +140,12 @@ Visita: ${quizmizurl}
 
   //Para obtener la IP
   const getIP = async () => {
+    console.log("Entra ip");
     try {
       const response = await axios.get(
         `https://quismizdle.onrender.com/jugadores/comprobarip`
       );
-      console.log("Esto devuelve el res: ", response.data);
+      console.log("Esto devuelve el res de ip comp: ", response.data);
     } catch (error) {
       console.error("Error al agregar jugador:", error);
     }

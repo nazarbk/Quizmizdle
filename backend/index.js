@@ -121,7 +121,9 @@ app.put("/jugadores/intentos/:id", async (req, res) => {
 //GET /jugadores/ranking: función para devolver el ranking de los jugadores según sus intentos
 app.get("/jugadores/ranking", async (req, res) => {
   try {
-    const jugadores = await Jugador.find().sort({ intentos: 1 }).limit(10); // Orden ascendente por intentos
+    const jugadores = await Jugador.find({ intentos: { $lt: 700 } })
+      .sort({ intentos: 1 })
+      .limit(10); // Orden ascendente por intentos y límite de 10 jugadores
     res.json(jugadores);
   } catch (error) {
     console.error("Error al obtener jugadores:", error);

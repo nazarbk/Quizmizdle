@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import Title from './Title';
 import Paragraph from './Paragraph';
@@ -23,36 +23,24 @@ function App() {
   const [personajesCoincidentes, setPersonajesCoincidentes] = useState([]);
   const [posicion, setPosicion] = useState(0); // para mostrar el ranking del jugador cuando acierte
   const [ranking, setRanking] = useState([]);  // para guardar el ranking del día
+  const [errorMessage, setErrorMessage] = useState('');
   
   const quizmizurl = "https://quizmizdle-4652a.web.app/";
 
-  const divContent = (
-    <div>
-      <p className='shareText'>
-        He encontrado el campeón de #Quizmizdle en {intentos} intentos ☝️🤓
-      </p>
-      <p className='shareText'>
-        Visita: <a className='shareLink' href={quizmizurl}>{quizmizurl}</a>
-      </p>
-    </div>
-  );
-
-  const divRef = useRef(null);
-
   const handleCopyClick = () => {
-    const range = document.createRange();
-    range.selectNode(divRef.current);
-    window.getSelection().removeAllRanges();
-    window.getSelection().addRange(range);
-
     try {
+      const tempElement = document.createElement("textarea");
+      tempElement.value = divContent2; // Usamos divContent2, que es un string de texto
+  
+      document.body.appendChild(tempElement);
+      tempElement.select();
       document.execCommand("copy");
+      document.body.removeChild(tempElement);
+  
       alert("Contenido copiado al portapapeles");
     } catch (error) {
       console.error("Error al copiar:", error);
     }
-
-    window.getSelection().removeAllRanges();
   };
 
   const divContent2 = `
@@ -269,26 +257,31 @@ Visita: ${quizmizurl}
     console.log("Entra cambio de nombre");
     const inputValueName = event.target.value;
     setInputValueName(inputValueName);
+    setErrorMessage('');
   };
 
   // Hook nombre de usuario
   const handleUsernameSubmit = async () => {
-    console.log("Valor del nombre: ", inputValueName);
-    try {
-      const response = await axios.post(
-        "https://quismizdle.onrender.com/agregarJugador",
-        {
-          nombre: inputValueName,
-        }
-      );
+    if (inputValueName.trim() !== '') {
+      console.log("Valor del nombre: ", inputValueName);
+      try {
+        const response = await axios.post(
+          "https://quismizdle.onrender.com/agregarJugador",
+          {
+            nombre: inputValueName,
+          }
+        );
 
-      console.log("Esto devuelve el res: ", response.data.jugador._id);
-      localStorage.setItem("userId", response.data.jugador._id);
-      console.log("ID local storage: ", localStorage.getItem("userId"));
-    } catch (error) {
-      console.error("Error al agregar jugador:", error);
+        console.log("Esto devuelve el res: ", response.data.jugador._id);
+        localStorage.setItem("userId", response.data.jugador._id);
+        console.log("ID local storage: ", localStorage.getItem("userId"));
+      } catch (error) {
+        console.error("Error al agregar jugador:", error);
+      }
+      setShowModal(false);
+    } else {
+      setErrorMessage("No puedes dejar el campo en blanco.");
     }
-    setShowModal(false);
   };
 
   return (
@@ -314,6 +307,7 @@ Visita: ${quizmizurl}
           <button className="buttonStyleName" onClick={handleUsernameSubmit}>
             Guardar
           </button>
+          <p className='errorText2'>{errorMessage}</p>
         </div>
       )}
 
@@ -349,6 +343,10 @@ Visita: ${quizmizurl}
             </p>
             <p className="barra">Próximo personaje</p>
             <CountdownClock />
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <button className="shareButtonStyle" onClick={handleCopyClick}><FontAwesomeIcon icon={faCopy}/> Copiar</button>
+              <button className="shareButtonStyle" onClick={handleWhatsAppClick}><FontAwesomeIcon icon={faShare}/> Compartir</button>
+            </div>
           </div>
         ) : (
           <>
@@ -418,22 +416,6 @@ Visita: ${quizmizurl}
           ))}
           </tbody>
         </table>
-      </div>
-
-      <div className='shareStyle'>
-        {hasWon ? (
-        <div className='winCard2'>
-          <h2 className='winText'>Comparte YA !</h2>
-          <div className='shareText' ref={divRef}>{divContent}</div>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <button className="shareButtonStyle" onClick={handleCopyClick}><FontAwesomeIcon icon={faCopy}/> Copiar</button>
-            <button className="shareButtonStyle" onClick={handleWhatsAppClick}><FontAwesomeIcon icon={faShare}/> Compartir</button>
-          </div>
-        </div>
-        ) : (
-          <>
-          </>
-        )}
       </div>
     </div>
   );

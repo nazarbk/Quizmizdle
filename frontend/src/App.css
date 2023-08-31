@@ -243,7 +243,7 @@ body{
   color: white;
   width: 250px;
   padding: 10px;
-  margin-top: 7px;
+  margin-top: 13px;
 }
 
 .intentos{
@@ -539,7 +539,7 @@ body{
   border: 3.5px solid rgb(218, 255, 251);
   border-radius: 8px;
   padding: 10px;
-  width: 260px;
+  width: 270px;
   background-color: rgb(12, 50, 77);
   box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.7);
 }
@@ -548,6 +548,7 @@ body{
   font-family: 'Zilla Slab', serif;
   font-weight: bold;
   margin: 10px;
+  margin-bottom: 18px;
   padding: 10px;
   font-size: 20px;
   border: 3.5px solid rgb(218, 255, 251);
@@ -562,4 +563,12 @@ body{
 
 .shareLink{
   color: rgb(151, 255, 244);
+}
+
+.errorText2{
+  color: rgb(192, 61, 61);
+  font-family: 'Zilla Slab', serif;
+  font-size: 17px;
+  margin-bottom: -1px;
+  font-weight: bold;
 }

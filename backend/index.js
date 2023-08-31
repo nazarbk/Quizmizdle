@@ -23,18 +23,6 @@ const jugadorSchema = new mongoose.Schema({
 });
 
 const Jugador = mongoose.model("Jugador", jugadorSchema, "jugadores");
-const Personaje = mongoose.model("Personaje", jugadorSchema, "personajes");
-
-// GET /personajes: función que devuelve los personajes de la BD
-app.get("/personajes", (req, res) => {
-  Jugador.find()
-    .then((resultado) => {
-      res.status(200).send({ ok: true, resultado: resultado });
-    })
-    .catch((error) => {
-      res.status(500).send({ ok: false, error: "Error obteniendo personajes" });
-    });
-});
 
 // GET /jugadores: función que devuelve los jugadores de la BD
 app.get("/jugadores", (req, res) => {
@@ -147,4 +135,55 @@ app.get("/jugadores/ranking/:id", async (req, res) => {
     console.error("Error al obtener jugadores:", error);
     res.status(500).json({ error: "Error al obtener jugadores" });
   }
+});
+
+//Personajes
+//Modelo de personaje
+const personajeSchema = new mongoose.Schema({
+  idPersonaje: Number,
+  nombre: String ,
+  genero: String,
+  especie: String,
+  ocupacion: String,
+  serie: String,
+  categoria: String
+});
+const Personaje = mongoose.model("Personaje", personajeSchema, "personajes");
+
+// GET /personajes: función que devuelve los personajes de la BD
+app.get("/personajes", (req, res) => {
+  Personaje.find()
+    .then((resultado) => {
+      res.status(200).send({ ok: true, resultado: resultado });
+    })
+    .catch((error) => {
+      res.status(500).send({ ok: false, error: "Error obteniendo personajes" });
+    });
+});
+
+// POST /agregarPersonaje: función para agregar un nuevo personaje a la BD
+// SOLO para admins
+app.post("/agregarPersonaje", async (req, res) => {
+  const { idPersonaje, nombre, genero, especie, ocupacion, serie, categoria} = req.body;
+  console.log("Este es el req: ", req.body);
+  console.log("Esta es el req.header del admin: ", req.headers['admin']);
+  if(req.headers['admin'] == "malni"){
+    try {
+      const nuevoPersonaje = new Personaje(req.body);
+      await nuevoPersonaje.save();
+      res.json({
+        mensaje: "Personaje agregado exitosamente",
+        personaje: nuevoPersonaje,
+      });
+    } catch (error) {
+      res
+        .status(500)
+        .json({ mensaje: "Error al agregar personaje", error: error.message });
+    }
+  }
+  else{
+    console.log("No eres un admin para realizar esta acción");
+    return res.status(404).json({ error: "Solo un admin puede realizar esta acción" });
+  }
+  
 });

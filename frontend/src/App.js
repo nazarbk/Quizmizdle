@@ -381,7 +381,6 @@ Visita: ${quizmizurl}
             </p>
             <p className="barra">Próximo personaje</p>
             <CountdownClock />
-            <a href="mailto:correo@example.com">Enviar sugerencias por correo</a>
             {comparacionCaracteristicas.length > 0 && (
               <div className='tablaResultados'>
                 <table className="comparacion-table">

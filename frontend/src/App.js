@@ -24,7 +24,23 @@ function App() {
   const [posicion, setPosicion] = useState(0); // para mostrar el ranking del jugador cuando acierte
   const [ranking, setRanking] = useState([]);  // para guardar el ranking del día
   const [errorMessage, setErrorMessage] = useState('');
+  const [comparacionCaracteristicas, setComparacionCaracteristicas] = useState([]);
+
+  const lastFiveSize = comparacionCaracteristicas.length > 5
+  ? comparacionCaracteristicas.length - 5
+  : 0;
   
+  const greenSquareEmoji = '🟩'; // Emoji de cuadrado verde
+  const redSquareEmoji = '🟥'; 
+
+  const generateEmojiMatrix = () => {
+    const reversedComparacionCaracteristicas = comparacionCaracteristicas.slice(-5).reverse();
+    
+    return reversedComparacionCaracteristicas.map((fila) =>
+      fila.map((coincide) => (coincide ? greenSquareEmoji : redSquareEmoji))
+    );
+  };
+
   const quizmizurl = "https://quizmizdle-4652a.web.app/";
 
   const handleCopyClick = () => {
@@ -44,8 +60,8 @@ function App() {
   };
 
   const divContent2 = `
-    He encontrado el campeón de #Quizmizdle en ${intentos} intentos ☝️🤓
-
+He encontrado el campeón de #Quizmizdle en ${intentos} intentos ☝️🤓
+${generateEmojiMatrix().map((row) => row.join(' ')).join('\n')} + ${lastFiveSize} intentos
 Visita: ${quizmizurl}
   `;
 
@@ -134,9 +150,20 @@ Visita: ${quizmizurl}
         personajeEncontrado.Nombre === personajePorId.Nombre &&
         personajeEncontrado.Genero === personajePorId.Genero &&
         personajeEncontrado.Especie === personajePorId.Especie &&
-        personajeEncontrado.Habilidad === personajePorId.Habilidad &&
-        personajeEncontrado.Region === personajePorId.Region &&
-        personajeEncontrado.Arma === personajePorId.Arma;
+        personajeEncontrado.Ocupación === personajePorId.Ocupación &&
+        personajeEncontrado.Serie === personajePorId.Serie &&
+        personajeEncontrado.Categoría === personajePorId.Categoría;
+
+      const caracteristicasCoincidentes = [
+        personajeEncontrado.Nombre === personajePorId.Nombre,
+        personajeEncontrado.Genero === personajePorId.Genero,
+        personajeEncontrado.Especie === personajePorId.Especie,
+        personajeEncontrado.Ocupación === personajePorId.Ocupación,
+        personajeEncontrado.Serie === personajePorId.Serie,
+        personajeEncontrado.Categoría === personajePorId.Categoría,
+      ];
+
+      setComparacionCaracteristicas((prevComparacion) => [...prevComparacion, caracteristicasCoincidentes]);
 
       if (todasLasCaracteristicasCoinciden) {
         setHasWon(true);
@@ -343,6 +370,27 @@ Visita: ${quizmizurl}
             </p>
             <p className="barra">Próximo personaje</p>
             <CountdownClock />
+            {comparacionCaracteristicas.length > 0 && (
+              <div className='tablaResultados'>
+                <table className="comparacion-table">
+                  <tbody>
+                    {comparacionCaracteristicas.slice(-5).reverse().map((caracteristicas, index) => (
+                      <tr key={index}>
+                        {caracteristicas.map((coincide, caracteristicaIndex) => (
+                          <td
+                            key={caracteristicaIndex}
+                            className={coincide ? "green-cell" : "red-cell"}
+                          >
+                            {coincide ? "" : ""}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+            <p className='lastFive'>+ {lastFiveSize} intentos</p>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <button className="shareButtonStyle" onClick={handleCopyClick}><FontAwesomeIcon icon={faCopy}/> Copiar</button>
               <button className="shareButtonStyle" onClick={handleWhatsAppClick}><FontAwesomeIcon icon={faShare}/> Compartir</button>

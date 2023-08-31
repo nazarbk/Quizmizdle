@@ -509,7 +509,7 @@ body{
   color: white;
   font-family: 'Zilla Slab', serif;
   margin-top: -10px;
-  margin-bottom: 20px;
+  margin-bottom: 14px;
   font-size: 40px;
   font-weight: bold;
 }
@@ -571,4 +571,37 @@ body{
   font-size: 17px;
   margin-bottom: -1px;
   font-weight: bold;
+}
+
+.green-cell{
+  background-color: rgb(53, 162, 159)
+}
+
+.red-cell{
+  background-color: rgb(187, 37, 37);
+}
+
+.comparacion-table{
+  border-collapse: separate; /* Asegura que las celdas tengan bordes separados */
+  border-spacing: 4px;
+}
+
+.comparacion-table td{
+  width: 28px;
+  height: 28px;
+  font-family: 'Zilla Slab', serif;
+  font-size: 20px;
+  border-radius: 9px;
+}
+
+.tablaResultados{
+  justify-content: center;
+  text-align: center;
+  display: flex;
+}
+
+.lastFive{
+  color: rgb(218, 255, 251);
+  font-weight: bold;
+  font-size: 20px;
 }

@@ -60,7 +60,7 @@ function App() {
   };
 
   const divContent2 = `
-He encontrado el campeón de #Quizmizdle en ${intentos} intentos ☝️🤓
+He encontrado el campeón de #Quizmixdle en ${intentos} intentos ☝️🤓
 ${generateEmojiMatrix().map((row) => row.join(' ')).join('\n')} + ${lastFiveSize} intentos
 Visita: ${quizmizurl}
   `;
@@ -318,7 +318,7 @@ Visita: ${quizmizurl}
       <div className={`overlay ${showModal ? "show" : ""}`}></div>
       {showModal && (
         <div className="modal">
-          <h2 className="titulopopup">Bienvenido a Quizmizdle!!</h2>
+          <h2 className="titulopopup">Bienvenido a Quizmixdle!!</h2>
           {/* <h3 className='parag'>Ingresa tu Nombre de Usuario</h3>
           <input
           className='textBoxName'

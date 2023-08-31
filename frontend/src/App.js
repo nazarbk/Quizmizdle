@@ -45,8 +45,11 @@ function App() {
 
   const handleCopyClick = () => {
     try {
-      const tempElement = document.createElement("textarea");
+      let tempElement = document.createElement("textarea");
       tempElement.value = divContent2; // Usamos divContent2, que es un string de texto
+      if(intentos<=5){
+        tempElement.value= divContent3;
+      }
   
       document.body.appendChild(tempElement);
       tempElement.select();
@@ -65,8 +68,17 @@ ${generateEmojiMatrix().map((row) => row.join(' ')).join('\n')} + ${lastFiveSize
 Visita: ${quizmizurl}
   `;
 
+  const divContent3 = `
+He encontrado el campeón de #Quizmixdle en ${intentos} intentos ☝️🤓
+${generateEmojiMatrix().map((row) => row.join(' ')).join('\n')}
+Visita: ${quizmizurl}
+  `;
+
   const handleWhatsAppClick = () => {
-    const encodedContent = encodeURIComponent(divContent2);
+    let encodedContent = encodeURIComponent(divContent2);
+    if(intentos<=5){
+      encodedContent= encodeURIComponent(divContent3);
+    }
     const whatsappURL = `https://api.whatsapp.com/send?text=${encodedContent}`;
     window.open(whatsappURL);
   };
@@ -102,6 +114,7 @@ Visita: ${quizmizurl}
     }
 
     cargaRanking();
+    getIP();
   }, []);
 
   function isSameDay(date1, date2) {
@@ -119,6 +132,18 @@ Visita: ${quizmizurl}
         `https://quismizdle.onrender.com/jugadores/ranking`
       );
       setRanking(response.data);
+      console.log("Esto devuelve el res: ", response.data);
+    } catch (error) {
+      console.error("Error al agregar jugador:", error);
+    }
+  };
+
+  //Para obtener la IP
+  const getIP = async () => {
+    try {
+      const response = await axios.get(
+        `https://quismizdle.onrender.com/jugadores/comprobarip`
+      );
       console.log("Esto devuelve el res: ", response.data);
     } catch (error) {
       console.error("Error al agregar jugador:", error);
@@ -401,7 +426,10 @@ Visita: ${quizmizurl}
                 </table>
               </div>
             )}
-            <p className='lastFive'>+ {lastFiveSize} intentos</p>
+            {console.log("Intentos: ", intentos)}
+            {intentos<=5 ? "": <p className='lastFive'>+ {lastFiveSize} intentos</p>
+            }
+            
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <button className="shareButtonStyle" onClick={handleCopyClick}><FontAwesomeIcon icon={faCopy}/> Copiar</button>
               <button className="shareButtonStyle" onClick={handleWhatsAppClick}><FontAwesomeIcon icon={faShare}/> Compartir</button>

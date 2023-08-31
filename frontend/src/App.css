@@ -248,32 +248,23 @@ body{
 
 .intentos{
   color: rgb(218, 255, 251);
-  font-size: 20px;
-  padding: 5px;
-  width: 260px;
-  height: 30px;
-  transform: translate(-68px);
+  font-size: 21px;
   font-family: 'Zilla Slab', serif;
+
+  margin-right: 70px;
 }
 
 .help{
-  justify-content: center;
-  text-align: center;
-  display: flex;
+  transform: translateY(-1px);
 
   color: rgb(218, 255, 251);
-  font-size: 20px;
-  width: 25px;
-  transform: translate(-21px);
+  font-size: 24px;
   font-family: 'Zilla Slab', serif;
-  border: 3px solid rgb(218, 255, 251);
-  border-radius: 5px;
 }
 
 .help:hover{
   cursor: pointer;
   color: white;
-  border: 3px solid #fff;
 }
 
 .tooltip {
@@ -282,6 +273,32 @@ body{
   position: absolute;
   top: 100%;
   left: 50%;
+  width: 200px;
+  padding: 5px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  border-radius: 4px;
+  font-size: 17px;
+}
+
+.tooltipMail{
+  font-family: 'Zilla Slab', serif;
+  display: none;
+  position: absolute;
+  left: 50%;
+  width: 200px;
+  padding: 5px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  border-radius: 4px;
+  font-size: 17px;
+}
+
+.tooltipRank{
+  font-family: 'Zilla Slab', serif;
+  display: none;
+  position: absolute;
+  transform: translate(-28px, 3px);
   width: 200px;
   padding: 5px;
   background-color: rgba(0, 0, 0, 0.7);
@@ -449,13 +466,15 @@ body{
 }
 
 .rank{
-  justify-content: center;
-  text-align: center;
-  display: flex;
+  transform: translateY(-2px);
+  margin-right: 20px;
 
   font-size: 22px;
-  transform: translate(-41px);
   font-family: 'Zilla Slab', serif;
+}
+
+.rank:hover .tooltipRank{
+  display: block;
 }
 
 .rankicon{
@@ -463,6 +482,24 @@ body{
 }
 
 .rankicon:hover{
+  color: white;
+}
+
+.mail{
+  margin-right: 24px;
+  font-size: 23px;
+  font-family: 'Zilla Slab', serif;
+}
+
+.mail:hover .tooltipMail{
+  display: block;
+}
+
+.mailicon{
+  color: rgb(218, 255, 251);
+}
+
+.mailicon:hover{
   color: white;
 }
 

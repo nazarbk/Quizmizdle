@@ -7,7 +7,7 @@ import axios from 'axios';
 import CountdownClock from './CountdownClock';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaperPlane, faCrown, faRankingStar, faQuestion, faCopy, faShare } from '@fortawesome/free-solid-svg-icons';
+import { faPaperPlane, faCrown, faRankingStar, faQuestion, faCopy, faShare, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
 function App() {
   const [personajeLista, setPersonajeLista] = useState([]);
@@ -341,10 +341,21 @@ Visita: ${quizmizurl}
       <Title />
       <div className="containerStyle">
         <p className="intentos">Intentos: {intentos}</p>
+        <p className="mail">
+          <a href="mailto:quizmizdevs@gmail.com" data-tooltip="Este es el contenido del popup">
+             <FontAwesomeIcon icon={faEnvelope} className="mailicon" /> 
+          </a>
+          <span className="tooltipMail">
+            Envíanos sugerencias por correo 
+          </span>
+        </p>
         <p className="rank">
-          <a href="#ranking-section">
+          <a href="#ranking-section" data-tooltip="Este es el contenido del popup">
             <FontAwesomeIcon icon={faRankingStar} className="rankicon" />
           </a>
+          <span className="tooltipRank">
+            Ranking de usuarios con menos intentos
+          </span>
         </p>
         <p className="help" data-tooltip="Este es el contenido del popup">
           <FontAwesomeIcon icon={faQuestion} />
@@ -370,6 +381,7 @@ Visita: ${quizmizurl}
             </p>
             <p className="barra">Próximo personaje</p>
             <CountdownClock />
+            <a href="mailto:correo@example.com">Enviar sugerencias por correo</a>
             {comparacionCaracteristicas.length > 0 && (
               <div className='tablaResultados'>
                 <table className="comparacion-table">

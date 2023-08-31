@@ -47,6 +47,7 @@ app.get("/comprobarip", async (req, res) => {
       res.json({
         mensaje: "Get ip correcta",
         ipregistrada: variable,
+        idJugador: existingPlayer._id
       });
   
 });

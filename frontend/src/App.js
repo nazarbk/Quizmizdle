@@ -41,7 +41,7 @@ function App() {
     );
   };
 
-  const quizmizurl = "https://quizmizdle-4652a.web.app/";
+  const quizmizurl = "https://quizmixdle.web.app/";
 
   const handleCopyClick = () => {
     try {

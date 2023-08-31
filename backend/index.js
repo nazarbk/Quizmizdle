@@ -39,27 +39,18 @@ app.get("/jugadores", (req, res) => {
 
 app.post("/agregarJugador", async (req, res) => {
   const { nombre} = req.body;
+  const ip = req.ip;
   console.log("Este es el req: ", req.body);
   console.log("Esta es la ip: ", req.ip);
 
-  var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
-  console.log("IP rial: ", ip);
-
-  const ipAddress = req.socket.remoteAddress;
-  console.log("Otra IP: ", ipAddress);
-  console.log("headers: ", req.headers['true-client-ip']);
-  let ipclient = req.headers['true-client-ip'].split(',');
-  ipclient = ipclient[0];
-  console.log("IP client: ", ipclient);
-
   try {
     //Comprobamos si la IP ya está registrada
-    const existingPlayer = await Jugador.findOne({ ip: ipclient });
+    const existingPlayer = await Jugador.findOne({ ip: ip });
     if (existingPlayer) {
       console.log("IP ya registrada");
       return res.status(400).json({ message: 'Ya has registrado tu IP anteriormente.' });
     }
-    const nuevoJugador = new Jugador({ nombre, ipclient });
+    const nuevoJugador = new Jugador({ nombre, ip });
     await nuevoJugador.save();
     res.json({
       mensaje: "Jugador agregado exitosamente",

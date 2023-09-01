@@ -19,7 +19,8 @@ app.set('trust proxy', true);
 const jugadorSchema = new mongoose.Schema({
   nombre: String,
   intentos: {type: Number, default: 999} ,
-  ip: String
+  ip: String,
+  cuadrados: [Boolean][Boolean]
 });
 
 const Jugador = mongoose.model("Jugador", jugadorSchema, "jugadores");
@@ -47,7 +48,7 @@ app.get("/comprobarip", async (req, res) => {
       res.json({
         mensaje: "Get ip correcta",
         ipregistrada: variable,
-        idJugador: existingPlayer._id
+        jugador: existingPlayer
       });
   
 });
@@ -92,6 +93,30 @@ cron.schedule("0 0 * * *", async () => {
 
 //PUT /jugadores/intentos: función para agregar los intentos de cada jugador para hacer ranking
 app.put("/jugadores/intentos/:id", async (req, res) => {
+  console.log("req body: ", req.body);
+  console.log("req params: ", req.params, " y req.params.id: ", typeof req.params.id);
+  const playerId = new ObjectId(req.params.id);
+  const newIntentos = req.body.intentos;
+
+  const jugador = await Jugador.findById(playerId);
+
+  if (!jugador) {
+    return res.status(404).json({ error: "Jugador no encontrado" });
+  }
+
+  // Actualizar la puntuación del jugador
+  jugador.intentos = newIntentos;
+
+  await jugador.save();
+
+  return res.json({
+    message: "Intentos actualizados exitosamente",
+    jugador: jugador,
+  });
+});
+
+//PUT /jugadores/cuadrados: función para agregar los cuadrados de cada jugador con sus intentos
+app.put("/jugadores/cuadrados/:id", async (req, res) => {
   console.log("req body: ", req.body);
   console.log("req params: ", req.params, " y req.params.id: ", typeof req.params.id);
   const playerId = new ObjectId(req.params.id);

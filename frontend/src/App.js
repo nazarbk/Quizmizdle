@@ -25,6 +25,8 @@ function App() {
   const [ranking, setRanking] = useState([]);  // para guardar el ranking del día
   const [errorMessage, setErrorMessage] = useState('');
   const [comparacionCaracteristicas, setComparacionCaracteristicas] = useState([]);
+  const [datosUsuario, setDatosUsuario] = useState();
+  
 
   const lastFiveSize = comparacionCaracteristicas.length > 5
   ? comparacionCaracteristicas.length - 5
@@ -143,11 +145,14 @@ Visita: ${quizmizurl}
     console.log("Entra ip");
     try {
       const response = await axios.get(
-        `https://quismizdle.onrender.com/jugadores/comprobarip`
+        `https://quismizdle.onrender.com/comprobarip`
       );
+      localStorage.setItem("userId", response.data.jugador._id);
+      setDatosUsuario(response.data.jugador);
       console.log("Esto devuelve el res de ip comp: ", response.data);
+      console.log("Estos son los datos del USUARIO ACTUAL: ", response.data.jugador);
     } catch (error) {
-      console.error("Error al agregar jugador:", error);
+      console.error("Error obteniendo IP:", error);
     }
   };
 

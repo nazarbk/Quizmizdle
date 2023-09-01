@@ -149,6 +149,9 @@ Visita: ${quizmizurl}
       );
       localStorage.setItem("userId", response.data.jugador._id);
       setDatosUsuario(response.data.jugador);
+      // setComparacionCaracteristicas(response.data.jugador.cuadrados);
+      // setComparacionCaracteristicas((prevComparacion) => [...prevComparacion, response.data.jugador.cuadrados]);
+      console.log("The rial CUADRADOS: ", response.data.jugador.cuadrados);
       console.log("Esto devuelve el res de ip comp: ", response.data);
       console.log("Estos son los datos del USUARIO ACTUAL: ", response.data.jugador);
     } catch (error) {

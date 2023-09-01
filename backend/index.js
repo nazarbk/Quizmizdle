@@ -20,7 +20,10 @@ const jugadorSchema = new mongoose.Schema({
   nombre: String,
   intentos: {type: Number, default: 999} ,
   ip: String,
-  cuadrados: [Boolean][Boolean]
+  cuadrados: {
+    type: [[Boolean]], // Tipo de dato: array de arrays de booleanos
+    default: [[]],    // Valor por defecto: un array vacío
+  }
 });
 
 const Jugador = mongoose.model("Jugador", jugadorSchema, "jugadores");

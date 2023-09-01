@@ -198,12 +198,13 @@ Visita: ${quizmizurl}
 
       if (todasLasCaracteristicasCoinciden) {
         setHasWon(true);
+        console.log("AAAAA: ", comparacionCaracteristicas);
         try {
           const response = await axios.put(
             `https://quismizdle.onrender.com/jugadores/intentos/${localStorage.getItem(
               "userId"
             )}`,
-            { intentos: intentos + 1 }
+            { intentos: intentos + 1, cuadrados: comparacionCaracteristicas }
           );
 
           console.log("Esto devuelve el res: ", response.data);

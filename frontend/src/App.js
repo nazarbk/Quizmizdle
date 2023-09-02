@@ -90,10 +90,10 @@ Visita: ${quizmizurl}
       const response = await axios.get(
         `https://quismizdle.onrender.com/personajes`
       );
-      console.log("LISTA PERSONAJES DEL GET: ", response.data.resultado);
+      //console.log("LISTA PERSONAJES DEL GET: ", response.data.resultado);
       setPersonajeLista(response.data.resultado);
     } catch (error) {
-      console.error("Error al agregar PERSONAJES:", error);
+      console.error("Error al cargar PERSONAJES:", error);
     }
   };
 
@@ -149,7 +149,7 @@ Visita: ${quizmizurl}
         `https://quismizdle.onrender.com/jugadores/ranking`
       );
       setRanking(response.data);
-      console.log("Esto devuelve el res: ", response.data);
+      //console.log("Esto devuelve el res: ", response.data);
     } catch (error) {
       console.error("Error al agregar jugador:", error);
     }
@@ -161,15 +161,15 @@ Visita: ${quizmizurl}
       const response = await axios.get(
         `https://quismizdle.onrender.com/personajeDia`
       );
-      console.log("PERSONAJE DEL DIA: ", response.data);
+      //console.log("PERSONAJE DEL DIA: ", response.data);
       try {
         const response2 = await axios.get(
           `https://quismizdle.onrender.com/personajes/${response.data.resultado[0].idPersonaje}`
         );
-        console.log("PERSONAJE COMPLETO DEL DIA: ", response2.data);
-        console.log("PERSONAJE COMPLETO DEL DIAcsfecr: ", response2.data.resultado[0]);
+        // console.log("PERSONAJE COMPLETO DEL DIA: ", response2.data);
+        // console.log("PERSONAJE COMPLETO DEL DIAcsfecr: ", response2.data.resultado[0]);
         setPersonajePorId(response2.data.resultado[0]);
-        console.log("ESTE ES EL VALOR DEL PERSONAJE POR ID: ", personajePorId);
+        // console.log("ESTE ES EL VALOR DEL PERSONAJE POR ID: ", personajePorId);
       } catch (error) {
         console.error("Error al agregar jugador:", error);
       }

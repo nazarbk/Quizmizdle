@@ -65,13 +65,13 @@ function App() {
   };
 
   const divContent2 = `
-He encontrado el campeón de #Quizmixdle en ${intentos} intentos ☝️🤓
+He encontrado al personaje del día de #Quizmixdle en ${intentos} intentos ☝️🤓
 ${generateEmojiMatrix().map((row) => row.join(' ')).join('\n')} + ${lastFiveSize} intentos
 Visita: ${quizmizurl}
   `;
 
   const divContent3 = `
-He encontrado el campeón de #Quizmixdle en ${intentos} intentos ☝️🤓
+He encontrado al personaje del día de #Quizmixdle en ${intentos} intentos ☝️🤓
 ${generateEmojiMatrix().map((row) => row.join(' ')).join('\n')}
 Visita: ${quizmizurl}
   `;
@@ -443,10 +443,10 @@ Visita: ${quizmizurl}
         {hasWon ? (
           <div className="winCard">
             <p className="winText">¡Has ganado!</p>
-            <p className='resultadowin'>
+            {posicion > 0 ? <p className='resultadowin'>
               Posición actual en
               <br></br> el ranking #{posicion}
-            </p>
+            </p> : ""}
             <p className="barra">Próximo personaje</p>
             <CountdownClock />
             {comparacionCaracteristicas.length > 0 && (

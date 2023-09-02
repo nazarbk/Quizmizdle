@@ -167,7 +167,9 @@ Visita: ${quizmizurl}
           `https://quismizdle.onrender.com/personajes/${response.data.resultado[0].idPersonaje}`
         );
         console.log("PERSONAJE COMPLETO DEL DIA: ", response2.data);
-        setPersonajePorId(response.data2);
+        console.log("PERSONAJE COMPLETO DEL DIAcsfecr: ", response2.data.resultado[0]);
+        setPersonajePorId(response2.data.resultado[0]);
+        console.log("ESTE ES EL VALOR DEL PERSONAJE POR ID: ", personajePorId);
       } catch (error) {
         console.error("Error al agregar jugador:", error);
       }
@@ -178,18 +180,16 @@ Visita: ${quizmizurl}
 
   //Para obtener la IP
   const getIP = async () => {
-    console.log("Entra ip");
+    //console.log("Entra ip");
     try {
       const response = await axios.get(
         `https://quismizdle.onrender.com/comprobarip`
       );
       localStorage.setItem("userId", response.data.jugador._id);
       setDatosUsuario(response.data.jugador);
-      // setComparacionCaracteristicas(response.data.jugador.cuadrados);
-      // setComparacionCaracteristicas((prevComparacion) => [...prevComparacion, response.data.jugador.cuadrados]);
-      console.log("The rial CUADRADOS: ", response.data.jugador.cuadrados);
-      console.log("Esto devuelve el res de ip comp: ", response.data);
-      console.log("Estos son los datos del USUARIO ACTUAL: ", response.data.jugador);
+      // console.log("The rial CUADRADOS: ", response.data.jugador.cuadrados);
+      // console.log("Esto devuelve el res de ip comp: ", response.data);
+      // console.log("Estos son los datos del USUARIO ACTUAL: ", response.data.jugador);
       setInputValueName(response.data.jugador.name);
       if(response.data.jugador.intentos < 999){
         setIntentos(response.data.jugador.intentos);
@@ -202,7 +202,7 @@ Visita: ${quizmizurl}
               `https://quismizdle.onrender.com/jugadores/ranking/${response.data.jugador._id}`
             );
             setPosicion(response2.data.posicion);
-            console.log("Esto devuelve el res: ", response2.data);
+            //console.log("Esto devuelve el res: ", response2.data);
           } catch (error) {
             console.error("Error al agregar jugador:", error);
           }
@@ -211,7 +211,7 @@ Visita: ${quizmizurl}
         }
       }
     } catch (error) {
-      console.error("Error obteniendo IP:", error);
+      //console.error("Error obteniendo IP:", error);
     }
   };
 
@@ -257,7 +257,6 @@ Visita: ${quizmizurl}
 
       if (todasLasCaracteristicasCoinciden) {
         setHasWon(true);
-        console.log("AAAAA: ", comparacionCaracteristicas);
         try {
           const response = await axios.put(
             `https://quismizdle.onrender.com/jugadores/intentos/${localStorage.getItem(
@@ -266,7 +265,7 @@ Visita: ${quizmizurl}
             { intentos: intentos + 1, cuadrados: comparacionCaracteristicas }
           );
         } catch (error) {
-          console.error("Error al agregar jugador:", error);
+          //console.error("Error al agregar jugador:", error);
         }
 
         try {
@@ -276,9 +275,9 @@ Visita: ${quizmizurl}
             )}`
           );
           setPosicion(response2.data.posicion);
-          console.log("Esto devuelve el res: ", response2.data);
+          //console.log("Esto devuelve el res: ", response2.data);
         } catch (error) {
-          console.error("Error al agregar jugador:", error);
+          //console.error("Error al agregar jugador:", error);
         }
         cargaRanking();
       }
@@ -371,7 +370,7 @@ Visita: ${quizmizurl}
 
   // Reacargamos el nombre del usuario
   const handleInputNameChange = (event) => {
-    console.log("Entra cambio de nombre");
+    //console.log("Entra cambio de nombre");
     const inputValueName = event.target.value;
     setInputValueName(inputValueName);
     setErrorMessage('');
@@ -380,7 +379,7 @@ Visita: ${quizmizurl}
   // Hook nombre de usuario
   const handleUsernameSubmit = async () => {
     if (inputValueName.trim() !== '') {
-      console.log("Valor del nombre: ", inputValueName);
+      //console.log("Valor del nombre: ", inputValueName);
       try {
         const response = await axios.post(
           "https://quismizdle.onrender.com/agregarJugador",
@@ -389,11 +388,11 @@ Visita: ${quizmizurl}
           }
         );
 
-        console.log("Esto devuelve el res: ", response.data.jugador._id);
+        //console.log("Esto devuelve el res: ", response.data.jugador._id);
         localStorage.setItem("userId", response.data.jugador._id);
-        console.log("ID local storage: ", localStorage.getItem("userId"));
+        //console.log("ID local storage: ", localStorage.getItem("userId"));
       } catch (error) {
-        console.error("Error al agregar jugador:", error);
+        //console.error("Error al agregar jugador:", error);
       }
       setShowModal(false);
     } else {
@@ -491,7 +490,7 @@ Visita: ${quizmizurl}
                 </table>
               </div>
             )}
-            {console.log("Intentos: ", intentos)}
+            {/* {console.log("Intentos: ", intentos)} */}
             {intentos<=5 ? "": <p className='lastFive'>+ {lastFiveSize} intentos</p>
             }
             

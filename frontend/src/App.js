@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane, faCrown, faRankingStar, faQuestion, faCopy, faShare, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
 function App() {
-  const [personajeLista, setPersonajeLista] = useState([]);
+  const [personajeLista, setPersonajeLista] = useState(null);
   const [inputValue, setInputValue] = useState("");
   const [inputValueName, setInputValueName] = useState(""); // para guardar el nombre de usuario
   const [personajePorId, setPersonajePorId] = useState(null);
@@ -65,13 +65,13 @@ function App() {
   };
 
   const divContent2 = `
-He encontrado el campeón de #Quizmixdle en ${intentos} intentos ☝️🤓
+He encontrado al personaje del día de #Quizmixdle en ${intentos} intentos ☝️🤓
 ${generateEmojiMatrix().map((row) => row.join(' ')).join('\n')} + ${lastFiveSize} intentos
 Visita: ${quizmizurl}
   `;
 
   const divContent3 = `
-He encontrado el campeón de #Quizmixdle en ${intentos} intentos ☝️🤓
+He encontrado al personaje del día de #Quizmixdle en ${intentos} intentos ☝️🤓
 ${generateEmojiMatrix().map((row) => row.join(' ')).join('\n')}
 Visita: ${quizmizurl}
   `;
@@ -85,13 +85,27 @@ Visita: ${quizmizurl}
     window.open(whatsappURL);
   };
 
-  useEffect(() => {
-    setPersonajeLista(data.personajes);
+  const cargarPersonajes = async () => {
+    try {
+      const response = await axios.get(
+        `https://quismizdle.onrender.com/personajes`
+      );
+      console.log("LISTA PERSONAJES DEL GET: ", response.data.resultado);
+      setPersonajeLista(response.data.resultado);
+    } catch (error) {
+      console.error("Error al agregar PERSONAJES:", error);
+    }
+  };
 
+  useEffect(() => {
+    cargarPersonajes();
+   
     // Obtener el personaje aleatorio del almacenamiento local
     const storedCharacter = JSON.parse(
       localStorage.getItem("selectedCharacter")
     );
+
+    console.log("STORED CHARACTER: ", storedCharacter);
 
     if (
       storedCharacter &&
@@ -100,8 +114,8 @@ Visita: ${quizmizurl}
       setPersonajePorId(storedCharacter.character);
     } else {
       // Generar un personaje aleatorio
-      const randomIndex = Math.floor(Math.random() * data.personajes.length);
-      const randomCharacter = data.personajes[randomIndex];
+      const randomIndex = Math.floor(Math.random() * personajeLista.length);
+      const randomCharacter = personajeLista[randomIndex];
 
       // Guardar el personaje aleatorio y la fecha actual en el almacenamiento local
       const selectedCharacter = {
@@ -155,7 +169,9 @@ Visita: ${quizmizurl}
       console.log("Esto devuelve el res de ip comp: ", response.data);
       console.log("Estos son los datos del USUARIO ACTUAL: ", response.data.jugador);
       setInputValueName(response.data.jugador.name);
-      setIntentos(response.data.jugador.intentos);
+      if(response.data.jugador.intentos < 999){
+        setIntentos(response.data.jugador.intentos);
+      }
       if(response.data.ipregistrada){
         setShowModal(false);
         if(response.data.jugador.intentos != 999){
@@ -182,7 +198,7 @@ Visita: ${quizmizurl}
     setInputValue(inputValue);
 
     const personajesCoincidentes = personajeLista.filter((personaje) =>
-      personaje.Nombre.toLowerCase().includes(inputValue.toLowerCase())
+      personaje.nombre.toLowerCase().includes(inputValue.toLowerCase())
     );
 
     setPersonajesCoincidentes(personajesCoincidentes);
@@ -191,28 +207,28 @@ Visita: ${quizmizurl}
 
   const verificarNombre = async () => {
     const personajeEncontrado = personajeLista.find(
-      (personaje) => personaje.Nombre === inputValue
+      (personaje) => personaje.nombre === inputValue
     );
 
     if (
       personajeEncontrado &&
-      !personajesComparados.has(personajeEncontrado.idPersonajes)
+      !personajesComparados.has(personajeEncontrado.idPersonaje)
     ) {
       const todasLasCaracteristicasCoinciden =
-        personajeEncontrado.Nombre === personajePorId.Nombre &&
-        personajeEncontrado.Genero === personajePorId.Genero &&
-        personajeEncontrado.Especie === personajePorId.Especie &&
-        personajeEncontrado.Ocupación === personajePorId.Ocupación &&
-        personajeEncontrado.Serie === personajePorId.Serie &&
-        personajeEncontrado.Categoría === personajePorId.Categoría;
+        personajeEncontrado.nombre === personajePorId.nombre &&
+        personajeEncontrado.genero === personajePorId.genero &&
+        personajeEncontrado.especie === personajePorId.especie &&
+        personajeEncontrado.ocupacion === personajePorId.ocupacion &&
+        personajeEncontrado.serie === personajePorId.serie &&
+        personajeEncontrado.categoria === personajePorId.categoria;
 
       const caracteristicasCoincidentes = [
-        personajeEncontrado.Nombre === personajePorId.Nombre,
-        personajeEncontrado.Genero === personajePorId.Genero,
-        personajeEncontrado.Especie === personajePorId.Especie,
-        personajeEncontrado.Ocupación === personajePorId.Ocupación,
-        personajeEncontrado.Serie === personajePorId.Serie,
-        personajeEncontrado.Categoría === personajePorId.Categoría,
+        personajeEncontrado.nombre === personajePorId.nombre,
+        personajeEncontrado.genero === personajePorId.genero,
+        personajeEncontrado.especie === personajePorId.especie,
+        personajeEncontrado.ocupacion === personajePorId.ocupacion,
+        personajeEncontrado.serie === personajePorId.serie,
+        personajeEncontrado.categoria === personajePorId.categoria,
       ];
 
       setComparacionCaracteristicas((prevComparacion) => [...prevComparacion, caracteristicasCoincidentes]);
@@ -227,8 +243,18 @@ Visita: ${quizmizurl}
             )}`,
             { intentos: intentos + 1, cuadrados: comparacionCaracteristicas }
           );
+        } catch (error) {
+          console.error("Error al agregar jugador:", error);
+        }
 
-          console.log("Esto devuelve el res: ", response.data);
+        try {
+          const response2 = await axios.get(
+            `https://quismizdle.onrender.com/jugadores/ranking/${localStorage.getItem(
+              "userId"
+            )}`
+          );
+          setPosicion(response2.data.posicion);
+          console.log("Esto devuelve el res: ", response2.data);
         } catch (error) {
           console.error("Error al agregar jugador:", error);
         }
@@ -254,57 +280,57 @@ Visita: ${quizmizurl}
               <tr>
                 <td
                   className={
-                    personajeEncontrado.Nombre === personajePorId.Nombre
+                    personajeEncontrado.nombre === personajePorId.nombre
                       ? "green-background"
                       : ""
                   }
                 >
-                  {personajeEncontrado.Nombre}
+                  {personajeEncontrado.nombre}
                 </td>
                 <td
                   className={
-                    personajeEncontrado.Genero === personajePorId.Genero
+                    personajeEncontrado.genero === personajePorId.genero
                       ? "green-background"
                       : ""
                   }
                 >
-                  {personajeEncontrado.Genero}
+                  {personajeEncontrado.genero}
                 </td>
                 <td
                   className={
-                    personajeEncontrado.Especie === personajePorId.Especie
+                    personajeEncontrado.especie === personajePorId.especie
                       ? "green-background"
                       : ""
                   }
                 >
-                  {personajeEncontrado.Especie}
+                  {personajeEncontrado.especie}
                 </td>
                 <td
                   className={
-                    personajeEncontrado.Ocupación === personajePorId.Ocupación
+                    personajeEncontrado.ocupacion === personajePorId.ocupacion
                       ? "green-background"
                       : ""
                   }
                 >
-                  {personajeEncontrado.Ocupación}
+                  {personajeEncontrado.ocupacion}
                 </td>
                 <td
                   className={
-                    personajeEncontrado.Serie === personajePorId.Serie
+                    personajeEncontrado.serie === personajePorId.serie
                       ? "green-background" 
                       : ""
                   }
                 >
-                  {personajeEncontrado.Serie}
+                  {personajeEncontrado.serie}
                 </td>
                 <td
                   className={
-                    personajeEncontrado.Categoría === personajePorId.Categoría
+                    personajeEncontrado.categoria === personajePorId.categoria
                       ? "green-background"
                       : ""
                   }
                 >
-                  {personajeEncontrado.Categoría}
+                  {personajeEncontrado.categoria}
                 </td>
               </tr>
             </tbody>
@@ -314,7 +340,7 @@ Visita: ${quizmizurl}
 
       setTablasFiltradas([...tablasFiltradas, nuevaTablaFiltrada]);
       setPersonajesComparados(
-        new Set(personajesComparados).add(personajeEncontrado.idPersonajes)
+        new Set(personajesComparados).add(personajeEncontrado.idPersonaje)
       );
     } else {
       setShowError(true);
@@ -417,10 +443,10 @@ Visita: ${quizmizurl}
         {hasWon ? (
           <div className="winCard">
             <p className="winText">¡Has ganado!</p>
-            <p className='resultadowin'>
+            {posicion > 0 ? <p className='resultadowin'>
               Posición actual en
               <br></br> el ranking #{posicion}
-            </p>
+            </p> : ""}
             <p className="barra">Próximo personaje</p>
             <CountdownClock />
             {comparacionCaracteristicas.length > 0 && (
@@ -473,14 +499,14 @@ Visita: ${quizmizurl}
           <ul className="listapersonajes">
             {personajesCoincidentes.map((personaje) => (
               <li
-                key={personaje.idPersonajes}
+                key={personaje.idPersonaje}
                 className="encontrados"
                 onClick={() => {
-                  setInputValue(personaje.Nombre);
+                  setInputValue(personaje.nombre);
                   setPersonajesCoincidentes([]);
                 }}
               >
-                {personaje.Nombre}
+                {personaje.nombre}
               </li>
             ))}
           </ul>

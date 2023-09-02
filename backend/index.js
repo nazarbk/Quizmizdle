@@ -204,7 +204,7 @@ app.get("/personajes", (req, res) => {
 
 // GET /personajes/idPersonaje función que devuelve el personaje por idPersonaje
 app.get("/personajes/:idPersonaje", (req, res) => {
-  const {idPersonaje} = req.body;
+  const idPersonaje = req.params.idPersonaje;
   console.log("LLAMADA ID PERSONAJE: ",req.body);
   Personaje.find({idPersonaje : idPersonaje})
     .then((resultado) => {

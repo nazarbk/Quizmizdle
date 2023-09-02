@@ -202,6 +202,18 @@ app.get("/personajes", (req, res) => {
     });
 });
 
+// GET /personajes/idPersonaje función que devuelve el personaje por idPersonaje
+app.get("/personajes/idPersonaje", (req, res) => {
+  const {idPersonaje} = req.body;
+  Personaje.find({idPersonaje : idPersonaje})
+    .then((resultado) => {
+      res.status(200).send({ ok: true, resultado: resultado });
+    })
+    .catch((error) => {
+      res.status(500).send({ ok: false, error: "Error obteniendo personajes" });
+    });
+});
+
 // POST /agregarPersonaje: función para agregar un nuevo personaje a la BD
 // SOLO para admins
 app.post("/agregarPersonaje", async (req, res) => {
@@ -250,7 +262,7 @@ app.get("/personajeDia", (req, res) => {
 // Programar la tarea para ejecutar la actualización del personaje cada día
 cron.schedule('0 0 * * *', async () => {
   try {
-    const numeroAleatorio = Math.floor(Math.random() * 30) + 1;
+    const numeroAleatorio = Math.floor(Math.random() * 23) + 1;
 
     const personajeAnt = await PersonajeDia.find();
 

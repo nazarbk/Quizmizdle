@@ -154,6 +154,19 @@ Visita: ${quizmizurl}
     }
   };
 
+  //Para cargar personaje del dia (idPersonaje)
+  const cargaPersonajeDia = async () => {
+    try {
+      const response = await axios.get(
+        `https://quismizdle.onrender.com/personajeDia`
+      );
+      console.log("Esto devuelve el res: ", response.data);
+      setPersonajePorId(response.data.resultado.idPersonaje);
+    } catch (error) {
+      console.error("Error al agregar jugador:", error);
+    }
+  };
+
   //Para obtener la IP
   const getIP = async () => {
     console.log("Entra ip");

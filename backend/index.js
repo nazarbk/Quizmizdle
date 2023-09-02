@@ -100,7 +100,8 @@ app.put("/jugadores/intentos/:id", async (req, res) => {
   console.log("req params: ", req.params, " y req.params.id: ", typeof req.params.id);
   const playerId = new ObjectId(req.params.id);
   const newIntentos = req.body.intentos;
-  const newCuadrados = req.body.cuadrados;
+  let newCuadrados = req.body.cuadrados;
+  const cuadradosCorrectos = [true, true, true, true, true, true];
 
   const jugador = await Jugador.findById(playerId);
 
@@ -110,6 +111,7 @@ app.put("/jugadores/intentos/:id", async (req, res) => {
 
   // Actualizar la puntuación del jugador
   jugador.intentos = newIntentos;
+  newCuadrados.push(cuadradosCorrectos);
   jugador.cuadrados = newCuadrados;
 
   await jugador.save();

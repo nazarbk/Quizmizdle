@@ -514,6 +514,7 @@ Visita: ${quizmizurl}
           <tbody>
           {ranking.map(jugador => (
             <tr key={jugador._id}>
+              <td></td>
               <td>{jugador.nombre}</td>
               <td>{jugador.intentos}</td>
             </tr>

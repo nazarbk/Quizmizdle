@@ -184,7 +184,8 @@ const personajeSchema = new mongoose.Schema({
   especie: String,
   ocupacion: String,
   serie: String,
-  categoria: String
+  categoria: String,
+  pista: String
 });
 const Personaje = mongoose.model("Personaje", personajeSchema, "personajes");
 

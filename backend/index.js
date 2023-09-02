@@ -269,7 +269,7 @@ cron.schedule('0 0 * * *', async () => {
 
 // POST /agregarPersonajeDia: función para agregar un nuevo personaje del dia a la BD
 // SOLO para admins
-app.post("/agregarPersonaje", async (req, res) => {
+app.post("/agregarPersonajeDia", async (req, res) => {
   const { idPersonaje} = req.body;
   console.log("Este es el req: ", req.body);
   console.log("Esta es el req.header del admin: ", req.headers['admin']);
@@ -278,13 +278,13 @@ app.post("/agregarPersonaje", async (req, res) => {
       const nuevoPersonaje = new Personaje(req.body);
       await nuevoPersonaje.save();
       res.json({
-        mensaje: "Personaje agregado exitosamente",
+        mensaje: "Personaje del dia agregado exitosamente",
         personajeDia: nuevoPersonaje,
       });
     } catch (error) {
       res
         .status(500)
-        .json({ mensaje: "Error al agregar personaje", error: error.message });
+        .json({ mensaje: "Error al agregar personaje del dia", error: error.message });
     }
   }
   else{

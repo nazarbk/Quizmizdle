@@ -226,3 +226,68 @@ app.post("/agregarPersonaje", async (req, res) => {
   }
   
 });
+
+//Personaje del dia
+//Modelo de personaje del dia
+const personajeDiaSchema = new mongoose.Schema({
+  idPersonaje: Number
+});
+const PersonajeDia = mongoose.model("PersonajeDia", personajeDiaSchema, "personajeDia");
+
+// GET /personajeDia: función que devuelve el id del personaje del dia
+app.get("/personajeDia", (req, res) => {
+  PersonajeDia.find()
+    .then((resultado) => {
+      res.status(200).send({ ok: true, resultado: resultado });
+    })
+    .catch((error) => {
+      res.status(500).send({ ok: false, error: "Error obteniendo personajes" });
+    });
+});
+
+// Programar la tarea para ejecutar la actualización del personaje cada día
+cron.schedule('0 0 * * *', async () => {
+  try {
+    const numeroAleatorio = Math.floor(Math.random() * 30) + 1;
+
+    const personajeAnt = await PersonajeDia.find();
+
+    // Actualiza el personaje con id=1 en la base de datos cada día
+    const resultado = await PersonajeDia.findOneAndUpdate(
+      { idPersonaje: personajeAnt.idPersonaje },
+      {idPersonaje: numeroAleatorio},
+      { new: true }
+    );
+
+    console.log('Personaje actualizado con éxito:', resultado);
+  } catch (error) {
+    console.error('Error al actualizar el personaje:', error);
+  }
+});
+
+// POST /agregarPersonajeDia: función para agregar un nuevo personaje del dia a la BD
+// SOLO para admins
+app.post("/agregarPersonaje", async (req, res) => {
+  const { idPersonaje} = req.body;
+  console.log("Este es el req: ", req.body);
+  console.log("Esta es el req.header del admin: ", req.headers['admin']);
+  if(req.headers['admin'] == "malni"){
+    try {
+      const nuevoPersonaje = new Personaje(req.body);
+      await nuevoPersonaje.save();
+      res.json({
+        mensaje: "Personaje agregado exitosamente",
+        personajeDia: nuevoPersonaje,
+      });
+    } catch (error) {
+      res
+        .status(500)
+        .json({ mensaje: "Error al agregar personaje", error: error.message });
+    }
+  }
+  else{
+    console.log("No eres un admin para realizar esta acción");
+    return res.status(404).json({ error: "Solo un admin puede realizar esta acción" });
+  }
+  
+});

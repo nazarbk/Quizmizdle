@@ -270,12 +270,12 @@ cron.schedule('0 0 * * *', async () => {
 // POST /agregarPersonajeDia: función para agregar un nuevo personaje del dia a la BD
 // SOLO para admins
 app.post("/agregarPersonajeDia", async (req, res) => {
-  const { idPersonaje} = req.body;
+  //const { idPersonaje} = req.body;
   console.log("Este es el req: ", req.body);
   console.log("Esta es el req.header del admin: ", req.headers['admin']);
   if(req.headers['admin'] == "malni"){
     try {
-      const nuevoPersonaje = new Personaje(req.body);
+      const nuevoPersonaje = new PersonajeDia(req.body);
       await nuevoPersonaje.save();
       res.json({
         mensaje: "Personaje del dia agregado exitosamente",

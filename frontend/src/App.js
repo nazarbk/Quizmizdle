@@ -101,36 +101,37 @@ Visita: ${quizmizurl}
     cargarPersonajes();
    
     // Obtener el personaje aleatorio del almacenamiento local
-    const storedCharacter = JSON.parse(
-      localStorage.getItem("selectedCharacter")
-    );
+    // const storedCharacter = JSON.parse(
+    //   localStorage.getItem("selectedCharacter")
+    // );
 
-    console.log("STORED CHARACTER: ", storedCharacter);
+    // console.log("STORED CHARACTER: ", storedCharacter);
 
-    if (
-      storedCharacter &&
-      isSameDay(new Date(storedCharacter.date), new Date())
-    ) {
-      setPersonajePorId(storedCharacter.character);
-    } else {
-      // Generar un personaje aleatorio
-      const randomIndex = Math.floor(Math.random() * personajeLista.length);
-      const randomCharacter = personajeLista[randomIndex];
+    // if (
+    //   storedCharacter &&
+    //   isSameDay(new Date(storedCharacter.date), new Date())
+    // ) {
+    //   setPersonajePorId(storedCharacter.character);
+    // } else {
+    //   // Generar un personaje aleatorio
+    //   const randomIndex = Math.floor(Math.random() * personajeLista.length);
+    //   const randomCharacter = personajeLista[randomIndex];
 
-      // Guardar el personaje aleatorio y la fecha actual en el almacenamiento local
-      const selectedCharacter = {
-        character: randomCharacter,
-        date: new Date().toISOString(),
-      };
-      localStorage.setItem(
-        "selectedCharacter",
-        JSON.stringify(selectedCharacter)
-      );
-      setPersonajePorId(randomCharacter);
-    }
+    //   // Guardar el personaje aleatorio y la fecha actual en el almacenamiento local
+    //   const selectedCharacter = {
+    //     character: randomCharacter,
+    //     date: new Date().toISOString(),
+    //   };
+    //   localStorage.setItem(
+    //     "selectedCharacter",
+    //     JSON.stringify(selectedCharacter)
+    //   );
+    //   setPersonajePorId(randomCharacter);
+    // }
 
     cargaRanking();
     getIP();
+    cargaPersonajeDia();
   }, []);
 
   function isSameDay(date1, date2) {
@@ -160,8 +161,16 @@ Visita: ${quizmizurl}
       const response = await axios.get(
         `https://quismizdle.onrender.com/personajeDia`
       );
-      console.log("Esto devuelve el res: ", response.data);
-      setPersonajePorId(response.data.resultado.idPersonaje);
+      console.log("PERSONAJE DEL DIA: ", response.data);
+      try {
+        const response2 = await axios.get(
+          `https://quismizdle.onrender.com/personajes/${response.data.resultado[0].idPersonaje}`
+        );
+        console.log("PERSONAJE COMPLETO DEL DIA: ", response2.data);
+        setPersonajePorId(response.data2);
+      } catch (error) {
+        console.error("Error al agregar jugador:", error);
+      }
     } catch (error) {
       console.error("Error al agregar jugador:", error);
     }
@@ -553,7 +562,6 @@ Visita: ${quizmizurl}
           <tbody>
           {ranking.map(jugador => (
             <tr key={jugador._id}>
-              <td></td>
               <td>{jugador.nombre}</td>
               <td>{jugador.intentos}</td>
             </tr>

@@ -621,6 +621,7 @@ body{
 .comparacion-table{
   border-collapse: separate; /* Asegura que las celdas tengan bordes separados */
   border-spacing: 4px;
+  margin-bottom: 12px;
 }
 
 .comparacion-table td{

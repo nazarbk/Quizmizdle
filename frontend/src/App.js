@@ -154,6 +154,24 @@ Visita: ${quizmizurl}
       console.log("The rial CUADRADOS: ", response.data.jugador.cuadrados);
       console.log("Esto devuelve el res de ip comp: ", response.data);
       console.log("Estos son los datos del USUARIO ACTUAL: ", response.data.jugador);
+      setInputValueName(response.data.jugador.name);
+      setIntentos(response.data.jugador.intentos);
+      if(response.data.ipregistrada){
+        setShowModal(false);
+        if(response.data.jugador.intentos != 999){
+          try {
+            const response2 = await axios.get(
+              `https://quismizdle.onrender.com/jugadores/ranking/${response.data.jugador._id}`
+            );
+            setPosicion(response2.data.posicion);
+            console.log("Esto devuelve el res: ", response2.data);
+          } catch (error) {
+            console.error("Error al agregar jugador:", error);
+          }
+          setHasWon(true);
+          setComparacionCaracteristicas(response.data.jugador.cuadrados);
+        }
+      }
     } catch (error) {
       console.error("Error obteniendo IP:", error);
     }
@@ -210,17 +228,6 @@ Visita: ${quizmizurl}
             { intentos: intentos + 1, cuadrados: comparacionCaracteristicas }
           );
 
-          console.log("Esto devuelve el res: ", response.data);
-        } catch (error) {
-          console.error("Error al agregar jugador:", error);
-        }
-        try {
-          const response = await axios.get(
-            `https://quismizdle.onrender.com/jugadores/ranking/${localStorage.getItem(
-              "userId"
-            )}`
-          );
-          setPosicion(response.data.posicion);
           console.log("Esto devuelve el res: ", response.data);
         } catch (error) {
           console.error("Error al agregar jugador:", error);

@@ -54,18 +54,34 @@ body{
   align-items: center;
 }
 
+@media (max-width: 599px) {
+  .tabla th, .tabla td{
+    font-size: 0.8rem !important;
+    padding: 4px !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .tabla th, .tabla td{
+    font-size: 0.7rem !important;
+    padding: 2px !important;
+  }
+}
+
 .tabla{
   animation: fadeIn 1s ease forwards;
   border-spacing: 6px;
   margin-top: 20px;
+  width: 100%; /* Hace que la tabla ocupe todo el ancho disponible */
+  border-collapse: collapse;
 }
 
 .tabla th, .tabla td{
   text-align: center;
   padding: 8px;
-  width: 85px;
+  width: 15%;
   font-family: 'Zilla Slab', serif;
-  font-size: 20px;
+  font-size: 1.2rem;
 }
 
 .tabla td{

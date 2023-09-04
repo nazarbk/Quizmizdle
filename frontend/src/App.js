@@ -7,7 +7,7 @@ import axios from 'axios';
 import CountdownClock from './CountdownClock';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaperPlane, faCrown, faRankingStar, faQuestion, faCopy, faShare, faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { faLightbulb, faPaperPlane, faCrown, faRankingStar, faQuestion, faCopy, faShare, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
 function App() {
   const [personajeLista, setPersonajeLista] = useState(null);
@@ -26,6 +26,29 @@ function App() {
   const [errorMessage, setErrorMessage] = useState('');
   const [comparacionCaracteristicas, setComparacionCaracteristicas] = useState([]);
   const [datosUsuario, setDatosUsuario] = useState();
+
+  const tarjeta = {
+    display: 'flex',
+    justifyContent: 'center', // Esto centra horizontalmente
+    alignItems: 'center',
+
+    marginBottom: '25px'
+  }
+
+
+  const containerStyle = {
+      borderRadius: '10px',
+      border: '3.5px solid rgb(218, 255, 251)',
+      backgroundColor: 'rgb(23, 107, 135)',
+      boxShadow: '0px 5px 12px rgba(0, 0, 0, 0.7)' 
+  }
+
+  const paragraphStyle = {
+      paddingTop: '18px',
+      width: '280px' ,
+      color: 'rgb(255, 255, 255)', 
+      margin: '0px'
+  };
   
 
   const lastFiveSize = comparacionCaracteristicas.length > 5
@@ -458,7 +481,31 @@ Visita: ${quizmizurl}
           </span>
         </p>
       </div>
-      <Paragraph />
+
+      <div style={tarjeta}>
+          <div style={containerStyle}>
+              <h3 style={paragraphStyle} className='parag'>¡Adivina el personaje animado del día!</h3>
+              {(intentos >= 6) ? (
+                <FontAwesomeIcon icon={faLightbulb} className='nuevoIcono' />
+              ) : (
+                <FontAwesomeIcon icon={faLightbulb} className='pista' />
+              )}
+              {(intentos >= 6) ? (
+                <p className='nuevoClassName'>Pista</p>
+              ) : (
+                <p className='pistatexto'>Pista en {6 - intentos} intentos</p>
+              )}
+          </div>
+      </div>
+
+      {(intentos >= 6) ? 
+        <div className='containerStyle'>
+          <div className='bocadillo'>
+            <p className='pistatexto2'>{personajePorId.pista}</p>
+          </div>
+        </div>
+        : ""
+      }
 
       <div className="containerStyle">
         {hasWon ? (

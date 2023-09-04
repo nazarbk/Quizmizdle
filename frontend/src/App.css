@@ -334,9 +334,77 @@ body{
 }
 
 .parag{
-  box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.7);
   font-size: 23px;
   font-family: 'Zilla Slab', serif;
+}
+
+.pista{
+  color: rgb(255, 255, 255, 0.6);
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: 12px;
+  padding-left: 12px;
+  margin-top: 25px;
+  font-Size: 22px;
+  border: 3.5px solid;
+  border-radius: 50%;
+  margin-bottom: -11px;
+}
+
+.nuevoIcono{
+  color: rgb(255, 255, 255);
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: 12px;
+  padding-left: 12px;
+  margin-top: 25px;
+  font-Size: 22px;
+  border: 3.5px solid;
+  border-radius: 50%;
+  margin-bottom: -11px;
+}
+
+.pistatexto{
+  color: rgb(255, 255, 255, 0.6);
+  font-family: 'Zilla Slab', serif;
+  font-size: 19px;
+  font-weight: bold;
+}
+
+.nuevoClassName{
+  color: rgb(255, 255, 255);
+  font-family: 'Zilla Slab', serif;
+  font-size: 19px;
+  font-weight: bold;
+}
+
+.bocadillo {
+  position: relative;
+  background-color: rgb(255, 255, 255, 0.2);
+  padding: 10px;
+  width: 260px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  z-index: 1; /* Asegura que el bocadillo esté encima del triángulo */
+}
+
+.bocadillo::before {
+  content: '';
+  position: absolute;
+  top: -21px; /* Ajusta la posición vertical del triángulo según sea necesario */
+  left: 50%;
+  margin-left: -10px;
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent transparent rgb(255, 255, 255, 0.2) transparent;
+  z-index: 2; /* Asegura que el triángulo esté encima del bocadillo */
+}
+
+.pistatexto2{
+  margin: 10px;
+  color: white;
+  font-family: 'Zilla Slab', serif;
+  font-size: 20px;
 }
 
 .overlay {

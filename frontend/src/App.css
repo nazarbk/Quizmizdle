@@ -59,6 +59,10 @@ body{
     font-size: 0.8rem !important;
     padding: 4px !important;
   }
+  .tabla{
+    width: 100%; 
+    border-collapse: collapse;
+  }
 }
 
 @media (max-width: 400px) {
@@ -72,14 +76,14 @@ body{
   animation: fadeIn 1s ease forwards;
   border-spacing: 6px;
   margin-top: 20px;
-  width: 100%; /* Hace que la tabla ocupe todo el ancho disponible */
-  border-collapse: collapse;
+  /* width: 100%; 
+  border-collapse: collapse; */
 }
 
 .tabla th, .tabla td{
   text-align: center;
   padding: 8px;
-  width: 15%;
+  width: 85px;
   font-family: 'Zilla Slab', serif;
   font-size: 1.2rem;
 }

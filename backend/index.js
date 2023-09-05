@@ -263,7 +263,7 @@ app.get("/personajeDia", (req, res) => {
 // Programar la tarea para ejecutar la actualización del personaje cada día
 cron.schedule('0 0 * * *', async () => {
   try {
-    const numeroAleatorio = Math.floor(Math.random() * 23) + 1;
+    const numeroAleatorio = Math.floor(Math.random() * 66) + 1;
 
     const personajeAnt = await PersonajeDia.find();
 
